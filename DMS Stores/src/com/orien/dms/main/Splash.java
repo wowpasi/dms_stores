@@ -107,10 +107,8 @@ public class Splash extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
                 Splash s = new Splash();
                 s.setVisible(true);
-                                    FlatLightLaf.setup();
 
                 Thread t = new Thread(() -> {
                     for (int i = 0; i <= 100; i=i+4) {
@@ -122,10 +120,18 @@ public class Splash extends javax.swing.JFrame {
 
                         }
                     }
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+>>>>>>> ef241c5c3c2428b08434637472153f7491f51856
                     FlatLightLaf.setup();
 //                    MainPanel mp = new MainPanel();
 
 //                    FlatLightLaf.setup();
+=======
+                    FlatLightLaf.setup();
+>>>>>>> Stashed changes
                     Login login = new Login();
 
 //                    mp.setSize(1920, 1080);
