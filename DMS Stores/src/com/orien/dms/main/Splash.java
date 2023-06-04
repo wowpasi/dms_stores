@@ -5,9 +5,9 @@
  */
 package com.orien.dms.main;
 
-//import com.formdev.flatlaf.FlatLightLaf;
 //import com.myapp.gui.MainPanel;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.orien.dms.gui.Login;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -107,8 +107,10 @@ public class Splash extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 Splash s = new Splash();
                 s.setVisible(true);
+                                    FlatLightLaf.setup();
 
                 Thread t = new Thread(() -> {
                     for (int i = 0; i <= 100; i=i+5) {
@@ -121,9 +123,9 @@ public class Splash extends javax.swing.JFrame {
                         }
                     }
 //                    FlatLightLaf.setup();
-//                    MainPanel mp = new MainPanel();
+                    Login login = new Login();
 //                    mp.setSize(1920, 1080);
-//                    mp.setVisible(true);
+                    login.setVisible(true);
 //                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
                     s.dispose();
                     s.dispose();
