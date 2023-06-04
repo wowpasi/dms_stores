@@ -111,7 +111,7 @@ public class Splash extends javax.swing.JFrame {
                 s.setVisible(true);
 
                 Thread t = new Thread(() -> {
-                    for (int i = 0; i <= 100; i=i+5) {
+                    for (int i = 0; i <= 100; i=i+4) {
                         s.jProgressBar1.setValue(i);
 
                         try {
@@ -120,13 +120,13 @@ public class Splash extends javax.swing.JFrame {
 
                         }
                     }
-//                    FlatLightLaf.setup();
+                    FlatLightLaf.setup();
 //                    MainPanel mp = new MainPanel();
 //                    mp.setSize(1920, 1080);
 //                    mp.setVisible(true);
 //                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
-                    s.dispose();
-                    s.dispose();
+//                    s.dispose();
+//                    s.dispose();
                 });
 
                 t.start();
