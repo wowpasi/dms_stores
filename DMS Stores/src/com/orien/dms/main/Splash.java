@@ -120,25 +120,16 @@ public class Splash extends javax.swing.JFrame {
 
                         }
                     }
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< HEAD
->>>>>>> ef241c5c3c2428b08434637472153f7491f51856
-                    FlatLightLaf.setup();
-//                    MainPanel mp = new MainPanel();
 
-//                    FlatLightLaf.setup();
-=======
                     FlatLightLaf.setup();
->>>>>>> Stashed changes
+
+                    FlatLightLaf.setup();
+
                     Login login = new Login();
 
-//                    mp.setSize(1920, 1080);
+
                     login.setVisible(true);
-//                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
-//                    s.dispose();
-//                    s.dispose();
+
                 });
 
                 t.start();
