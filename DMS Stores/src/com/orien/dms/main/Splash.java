@@ -115,7 +115,7 @@ public class Splash extends javax.swing.JFrame {
 
                 s.setVisible(true);
 
-                Thread t = new Thread(() -> {
+               new Thread(() -> {
                     for (int i = 0; i <= 100; i=i+4) {
                         s.jProgressBar1.setValue(i);
 
@@ -132,9 +132,7 @@ public class Splash extends javax.swing.JFrame {
 //                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
                     s.dispose();
                     
-                });
-
-                t.start();
+                }).start();
 
             }
         });
