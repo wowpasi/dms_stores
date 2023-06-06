@@ -4,6 +4,11 @@
  */
 package com.orien.dms.gui;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimerTask;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Asus
@@ -15,6 +20,33 @@ public class CashierPanel extends javax.swing.JFrame {
      */
     public CashierPanel() {
         initComponents();
+        
+        SimpleDateFormat sfd = new SimpleDateFormat("HH:mm:ss");
+
+//                String format = sfd.format(new Date());
+//                System.out.println(format);
+  
+         
+                new Thread(
+                        () -> {
+                            while (true) {
+                               
+jLabel2.setText(sfd.format(new Date()));
+
+                            }
+                        }
+                ).start();
+                
+//                TimerTask task1 = new TimerTask() {
+//            @Override
+//            public void run() {
+//                jLabel2.setText(sdf.format(new Date()));
+//
+//            }
+//        };
+//
+//        timer1.schedule(task1, 0, 1000);
+        
     }
 
     /**
@@ -31,6 +63,7 @@ public class CashierPanel extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -49,6 +82,10 @@ public class CashierPanel extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton3.setText("Ongoing Billing");
 
+        jLabel2.setFont(new java.awt.Font("Showcard Gothic", 3, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Time");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -58,7 +95,8 @@ public class CashierPanel extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(29, 29, 29))
         );
         jPanel2Layout.setVerticalGroup(
@@ -70,7 +108,9 @@ public class CashierPanel extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(381, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
@@ -161,11 +201,16 @@ public class CashierPanel extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+          
+
             public void run() {
                 CashierPanel cashierPanel = new CashierPanel();
                 cashierPanel.setSize(1920, 1080);
                 cashierPanel.setExtendedState(cashierPanel.getExtendedState() | cashierPanel.MAXIMIZED_BOTH);
                 cashierPanel.setVisible(true);
+
+                
+
             }
         });
     }
@@ -175,6 +220,7 @@ public class CashierPanel extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
