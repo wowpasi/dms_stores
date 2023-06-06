@@ -4,6 +4,7 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.DateTime;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
@@ -20,31 +21,13 @@ public class CashierPanel extends javax.swing.JFrame {
      */
     public CashierPanel() {
         initComponents();
+        new Thread(() -> {
+            while (true) {
+                jLabel2.setText(DateTime.getTime());
+                jLabel3.setText(DateTime.getDate());
+            }
+        }).start();
 
-        SimpleDateFormat sft = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-
-//                String format = sfd.format(new Date());
-//                System.out.println(format);
-        new Thread(
-                () -> {
-                    while (true) {
-
-                        jLabel2.setText(sft.format(new Date()));
-                        jLabel3.setText(sfd .format(new Date()));
-                    }
-                }
-        ).start();
-
-//                TimerTask task1 = new TimerTask() {
-//            @Override
-//            public void run() {
-//                jLabel2.setText(sdf.format(new Date()));
-//
-//            }
-//        };
-//
-//        timer1.schedule(task1, 0, 1000);
     }
 
     /**
@@ -75,12 +58,32 @@ public class CashierPanel extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton1.setText("DashBoard");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton2.setText("Invoice");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton3.setText("Ongoing Billing");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Showcard Gothic", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -189,6 +192,26 @@ public class CashierPanel extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        jLabel1.setText("Invoice(Cashier)");
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton1KeyPressed
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        jLabel1.setText("OngoingBilling(Cashier)");
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        jLabel1.setText("Dashboard(Cashier)");
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
