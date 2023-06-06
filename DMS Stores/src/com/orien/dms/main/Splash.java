@@ -124,7 +124,7 @@ public class Splash extends javax.swing.JFrame {
                     FlatLightLaf.setup();
 
                     FlatLightLaf.setup();
-
+s.dispose();
                     Login login = new Login();
 
 
