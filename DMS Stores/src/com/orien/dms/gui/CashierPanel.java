@@ -19,6 +19,15 @@ public class CashierPanel extends javax.swing.JFrame {
     /**
      * Creates new form CashierPanel
      */
+    public  void loadDashboard() {
+        jLabel1.setText("Dashboard(Cashier)");
+
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new CashierDashboard(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
+    }
+
     public CashierPanel() {
         initComponents();
         new Thread(() -> {
@@ -61,6 +70,11 @@ public class CashierPanel extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
         jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -140,11 +154,11 @@ public class CashierPanel extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 977, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 486, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Stencil", 1, 36)); // NOI18N
@@ -196,6 +210,10 @@ public class CashierPanel extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         jLabel1.setText("Invoice(Cashier)");
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new CashierInvoice(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
@@ -206,12 +224,22 @@ public class CashierPanel extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         jLabel1.setText("OngoingBilling(Cashier)");
+
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new CashierOngoingBill(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        jLabel1.setText("Dashboard(Cashier)");
+        loadDashboard();
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,6 +275,7 @@ public class CashierPanel extends javax.swing.JFrame {
                 CashierPanel cashierPanel = new CashierPanel();
                 cashierPanel.setSize(1920, 1080);
                 cashierPanel.setExtendedState(cashierPanel.getExtendedState() | cashierPanel.MAXIMIZED_BOTH);
+                 cashierPanel.loadDashboard();
                 cashierPanel.setVisible(true);
 
             }
