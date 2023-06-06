@@ -22,10 +22,7 @@ public class Splash extends javax.swing.JFrame {
     public Splash() {
 
         initComponents();
-     
-        ImageIcon i= new ImageIcon("src/com/orien/dms/img/logo.png");
-        Image x=i.getImage();
-        setIconImage(x);
+        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
     }
 
     /**
@@ -130,7 +127,7 @@ public class Splash extends javax.swing.JFrame {
 //                    mp.setVisible(true);
 //                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
                     s.dispose();
-                    s.dispose();
+                    
                 });
 
                 t.start();
