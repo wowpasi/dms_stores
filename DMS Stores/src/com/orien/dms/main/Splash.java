@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.orien.dms.gui;
+package com.orien.dms.main;
 
 //import com.formdev.flatlaf.FlatLightLaf;
 //import com.myapp.gui.MainPanel;
@@ -23,7 +23,7 @@ public class Splash extends javax.swing.JFrame {
 
         initComponents();
      
-        ImageIcon i= new ImageIcon("src/img/orienlogo.ico");
+        ImageIcon i= new ImageIcon("src/img/orienlogo.png");
         Image x=i.getImage();
         setIconImage(x);
     }
