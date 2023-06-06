@@ -4,7 +4,9 @@
  */
 package com.orien.dms.gui;
 
-/**
+import javax.swing.ImageIcon;
+
+/** 
  *
  * @author Asus
  */
@@ -15,6 +17,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+                  setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
     }
 
     /**
