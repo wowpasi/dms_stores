@@ -20,23 +20,22 @@ public class CashierPanel extends javax.swing.JFrame {
      */
     public CashierPanel() {
         initComponents();
-        
-        SimpleDateFormat sfd = new SimpleDateFormat("HH:mm:ss");
+
+        SimpleDateFormat sft = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
 
 //                String format = sfd.format(new Date());
 //                System.out.println(format);
-  
-         
-                new Thread(
-                        () -> {
-                            while (true) {
-                               
-jLabel2.setText(sfd.format(new Date()));
+        new Thread(
+                () -> {
+                    while (true) {
 
-                            }
-                        }
-                ).start();
-                
+                        jLabel2.setText(sft.format(new Date()));
+                        jLabel3.setText(sfd.format(new Date()));
+                    }
+                }
+        ).start();
+
 //                TimerTask task1 = new TimerTask() {
 //            @Override
 //            public void run() {
@@ -46,7 +45,6 @@ jLabel2.setText(sfd.format(new Date()));
 //        };
 //
 //        timer1.schedule(task1, 0, 1000);
-        
     }
 
     /**
@@ -64,6 +62,7 @@ jLabel2.setText(sfd.format(new Date()));
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -86,6 +85,10 @@ jLabel2.setText(sfd.format(new Date()));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Time");
 
+        jLabel3.setFont(new java.awt.Font("Showcard Gothic", 3, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Date");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -96,7 +99,8 @@ jLabel2.setText(sfd.format(new Date()));
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(29, 29, 29))
         );
         jPanel2Layout.setVerticalGroup(
@@ -108,9 +112,11 @@ jLabel2.setText(sfd.format(new Date()));
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
@@ -201,15 +207,12 @@ jLabel2.setText(sfd.format(new Date()));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-          
 
             public void run() {
                 CashierPanel cashierPanel = new CashierPanel();
                 cashierPanel.setSize(1920, 1080);
                 cashierPanel.setExtendedState(cashierPanel.getExtendedState() | cashierPanel.MAXIMIZED_BOTH);
                 cashierPanel.setVisible(true);
-
-                
 
             }
         });
@@ -221,6 +224,7 @@ jLabel2.setText(sfd.format(new Date()));
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
