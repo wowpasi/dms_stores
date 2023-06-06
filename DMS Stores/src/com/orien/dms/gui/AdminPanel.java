@@ -22,12 +22,9 @@ public class AdminPanel extends javax.swing.JFrame {
         
         setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
         
+ 
     }
-    public AdminPanel(AdminDashboard adminDashboard) {
-        initComponents();
-        
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,7 +71,12 @@ public class AdminPanel extends javax.swing.JFrame {
         });
 
         jButton3.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
-        jButton3.setText("Ongoing Billing");
+        jButton3.setText("Ongoing GRN");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton4.setText("Reports");
@@ -86,6 +88,11 @@ public class AdminPanel extends javax.swing.JFrame {
 
         jButton5.setFont(new java.awt.Font("STLiti", 1, 24)); // NOI18N
         jButton5.setText("Cashier Management");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Showcard Gothic", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -133,7 +140,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,21 +180,53 @@ public class AdminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+              jLabel1.setText("Billing Reports");
+        
+        AdminReportPanel adminReportPanel=new AdminReportPanel();
+                this.jPanel3.removeAll();
+        this.jPanel3.add(adminReportPanel);
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jLabel1.setText("Good Recieve Notes");
+        
+        GRNPanel gRNPanel=new GRNPanel();
+                this.jPanel3.removeAll();
+        this.jPanel3.add(gRNPanel);
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
            jLabel1.setText("Dashboard(Admin)");
-           AdminDashboard adminDashboard=new AdminDashboard();
            
+           AdminDashboard adminDashboard=new AdminDashboard();
             this.jPanel3.removeAll();
         this.jPanel3.add(adminDashboard);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+           jLabel1.setText("Ongoing GRN's");
+           
+           OngoingGRNPanel ongoingGRNPanel=new OngoingGRNPanel();
+            this.jPanel3.removeAll();
+        this.jPanel3.add(ongoingGRNPanel);
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+                 jLabel1.setText("Manage Cashiers");
+           
+           CashierManagePanel cashierManagePanel=new CashierManagePanel();
+            this.jPanel3.removeAll();
+        this.jPanel3.add(cashierManagePanel);
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
