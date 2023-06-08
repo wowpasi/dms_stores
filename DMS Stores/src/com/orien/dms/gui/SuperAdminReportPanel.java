@@ -4,17 +4,24 @@
  */
 package com.orien.dms.gui;
 
+import java.awt.Color;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Asus
  */
-public class SuperAdminPanel extends javax.swing.JPanel {
-
+public class SuperAdminReportPanel extends javax.swing.JPanel {
+    JPanel jPanel;
     /**
-     * Creates new form SuperAdminPanel
+     * Creates new form SuperAdminReportPanel
      */
-    public SuperAdminPanel() {
+    public SuperAdminReportPanel(JPanel jPanel) {
         initComponents();
+        this.jPanel=jPanel;
+        setSize(jPanel.getSize());
+        setBackground(new Color(95, 204, 255));
+        revalidate();
     }
 
     /**
@@ -26,15 +33,17 @@ public class SuperAdminPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 862, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 530, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

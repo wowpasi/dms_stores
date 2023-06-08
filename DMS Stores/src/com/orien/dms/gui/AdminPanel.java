@@ -14,12 +14,12 @@ import javax.swing.ImageIcon;
  */
 public class AdminPanel extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form AdminDashboard
      */
     public AdminPanel() {
         initComponents();
+<<<<<<< HEAD
         
         setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
         new Thread(() -> {
@@ -30,7 +30,12 @@ public class AdminPanel extends javax.swing.JFrame {
         }).start();
  
     }
+=======
+>>>>>>> 674468564f9158d89b008b049e9e2f615e65ec70
 
+        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -206,10 +211,10 @@ public class AdminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-              jLabel1.setText("Billing Reports");
-        
-        AdminReportPanel adminReportPanel=new AdminReportPanel();
-                this.jPanel3.removeAll();
+        jLabel1.setText("Billing Reports");
+
+        AdminReportPanel adminReportPanel = new AdminReportPanel();
+        this.jPanel3.removeAll();
         this.jPanel3.add(adminReportPanel);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
@@ -217,38 +222,38 @@ public class AdminPanel extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jLabel1.setText("Good Recieve Notes");
-        
-        GRNPanel gRNPanel=new GRNPanel();
-                this.jPanel3.removeAll();
+
+        GRNPanel gRNPanel = new GRNPanel();
+        this.jPanel3.removeAll();
         this.jPanel3.add(gRNPanel);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-           jLabel1.setText("Dashboard(Admin)");
-           
-           AdminDashboard adminDashboard=new AdminDashboard();
-            this.jPanel3.removeAll();
+        jLabel1.setText("Dashboard(Admin)");
+
+        AdminDashboard adminDashboard = new AdminDashboard();
+        this.jPanel3.removeAll();
         this.jPanel3.add(adminDashboard);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-           jLabel1.setText("Ongoing GRN's");
-           
-           OngoingGRNPanel ongoingGRNPanel=new OngoingGRNPanel();
-            this.jPanel3.removeAll();
+        jLabel1.setText("Ongoing GRN's");
+
+        OngoingGRNPanel ongoingGRNPanel = new OngoingGRNPanel();
+        this.jPanel3.removeAll();
         this.jPanel3.add(ongoingGRNPanel);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-                 jLabel1.setText("Manage Cashiers");
-           
-           CashierManagePanel cashierManagePanel=new CashierManagePanel();
-            this.jPanel3.removeAll();
+        jLabel1.setText("Manage Cashiers");
+
+        CashierManagePanel cashierManagePanel = new CashierManagePanel();
+        this.jPanel3.removeAll();
         this.jPanel3.add(cashierManagePanel);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
