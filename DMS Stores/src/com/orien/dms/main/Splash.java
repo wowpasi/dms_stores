@@ -9,7 +9,6 @@ package com.orien.dms.main;
 //import com.myapp.gui.MainPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.orien.dms.gui.Login;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -25,8 +24,8 @@ public class Splash extends javax.swing.JFrame {
 
         initComponents();
         setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
-     
-          setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+
+        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
 
     }
 
@@ -114,12 +113,12 @@ public class Splash extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Splash s = new Splash();
-                                    FlatLightLaf.setup();
+                FlatLightLaf.setup();
 
                 s.setVisible(true);
 
-               new Thread(() -> {
-                    for (int i = 0; i <= 100; i=i+4) {
+                new Thread(() -> {
+                    for (int i = 0; i <= 100; i = i + 4) {
                         s.jProgressBar1.setValue(i);
 
                         try {
@@ -129,12 +128,12 @@ public class Splash extends javax.swing.JFrame {
                         }
                     }
 
-                    Login login=new Login();
+                    Login login = new Login();
                     login.setVisible(true);
 
 //                    mp.setExtendedState(mp.getExtendedState() | MainPanel.MAXIMIZED_BOTH);
                     s.dispose();
-                    
+
                 }).start();
 
             }
