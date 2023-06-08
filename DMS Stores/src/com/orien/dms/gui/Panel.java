@@ -12,16 +12,15 @@ import javax.swing.ImageIcon;
  *
  * @author Asus
  */
-public class AdminPanel extends javax.swing.JFrame {
+public class Panel extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminDashboard
      */
-    public AdminPanel() {
+    public Panel() {
         initComponents();
-<<<<<<< HEAD
         
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+//        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
@@ -30,10 +29,8 @@ public class AdminPanel extends javax.swing.JFrame {
         }).start();
  
     }
-=======
->>>>>>> 674468564f9158d89b008b049e9e2f615e65ec70
 
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+        Panelge(new ImageIcon("src/com/orien/dms/img/logo.png");
 
     }
 

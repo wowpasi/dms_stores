@@ -10,7 +10,7 @@ import com.orien.dms.model.DateTime;
  *
  * @author Asus
  */
-public class SuperAdminDashboard extends javax.swing.JFrame {
+public class SuperAdminFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form SuperAdminDashboard
@@ -23,7 +23,7 @@ public class SuperAdminDashboard extends javax.swing.JFrame {
         this.jPanel3.repaint();
     }
 
-    public SuperAdminDashboard() {
+    public SuperAdminFrame() {
         initComponents();
         new Thread(() -> {
             while (true) {
@@ -238,20 +238,21 @@ public class SuperAdminDashboard extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SuperAdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SuperAdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SuperAdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SuperAdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SuperAdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SuperAdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SuperAdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SuperAdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SuperAdminDashboard superAdminDashboard = new SuperAdminDashboard();
+                SuperAdminFrame superAdminDashboard = new SuperAdminFrame();
                 superAdminDashboard.setSize(1920, 1080);
                 superAdminDashboard.setExtendedState(superAdminDashboard.getExtendedState() | superAdminDashboard.MAXIMIZED_BOTH);
 //                 superAdminDashboard.loadDashboard();

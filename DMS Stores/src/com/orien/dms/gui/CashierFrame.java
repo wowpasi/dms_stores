@@ -14,7 +14,7 @@ import javax.swing.JLabel;
  *
  * @author Asus
  */
-public class CashierPanel extends javax.swing.JFrame {
+public class CashierFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form CashierPanel
@@ -28,7 +28,7 @@ public class CashierPanel extends javax.swing.JFrame {
         this.jPanel3.repaint();
     }
 
-    public CashierPanel() {
+    public CashierFrame() {
         initComponents();
         new Thread(() -> {
             while (true) {
@@ -258,21 +258,22 @@ public class CashierPanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CashierPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CashierPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CashierPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CashierPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                CashierPanel cashierPanel = new CashierPanel();
+                CashierFrame cashierPanel = new CashierFrame();
                 cashierPanel.setSize(1920, 1080);
                 cashierPanel.setExtendedState(cashierPanel.getExtendedState() | cashierPanel.MAXIMIZED_BOTH);
                  cashierPanel.loadDashboard();
