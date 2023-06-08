@@ -5,6 +5,7 @@
 package com.orien.dms.gui;
 
 import java.awt.Color;
+import java.util.regex.Pattern;
 import javax.swing.JPanel;
 
 /**
@@ -12,13 +13,15 @@ import javax.swing.JPanel;
  * @author Asus
  */
 public class SuperAdminManagementPlanel extends javax.swing.JPanel {
-JPanel jPanel;
+
+    JPanel jPanel;
+
     /**
      * Creates new form SuperAdminManagementPlanel
      */
     public SuperAdminManagementPlanel(JPanel jPanel) {
         initComponents();
-        this.jPanel=jPanel;
+        this.jPanel = jPanel;
         setSize(jPanel.getSize());
         setBackground(new Color(95, 204, 255));
         revalidate();
@@ -92,7 +95,16 @@ JPanel jPanel;
 
         jLabel1.setText("NIC :");
 
-        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("First Name : ");
 
@@ -106,17 +118,30 @@ JPanel jPanel;
 
         jLabel7.setText("Email :");
 
-        jTextField2.setText("jTextField2");
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
 
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField3KeyTyped(evt);
+            }
+        });
 
         jPasswordField1.setText("jPasswordField1");
 
-        jTextField5.setText("jTextField5");
-
-        jTextField6.setText("jTextField6");
+        jTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField5MouseClicked(evt);
+            }
+        });
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField5KeyTyped(evt);
+            }
+        });
 
         jButton1.setText("Register Admin");
 
@@ -232,6 +257,56 @@ JPanel jPanel;
                 .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        // TODO add your handling code here:
+
+        if (Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+        // TODO add your handling code here:
+        if (Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField3KeyTyped
+
+    private void jTextField5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyTyped
+        // TODO add your handling code here:
+        String text = jTextField5.getText();
+        if (!Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
+            evt.consume();
+
+        } else if (text.length() == 10) {
+            evt.consume();
+            jTextField5.setEnabled(false);
+        }
+
+    }//GEN-LAST:event_jTextField5KeyTyped
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            jTextField5.setEnabled(true);
+            jTextField5.setText("");
+            jTextField5.grabFocus();
+        }
+    }//GEN-LAST:event_jTextField5MouseClicked
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+
+        if (!Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches() && !Pattern.compile("[v|V]").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField1KeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
