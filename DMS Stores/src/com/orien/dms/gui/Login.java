@@ -170,19 +170,36 @@ public class Login extends javax.swing.JFrame {
             try {
 
                 ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
-                if (rs.next()) {
-                    System.out.println("ok");
-                    if (userType.equalsIgnoreCase("superadmin")) {
+//                if (rs.next()) {
+                if (rs.next() && userType.equalsIgnoreCase("superadmin")) {
 
-                        SuperAdminFrame saf = new SuperAdminFrame();
-                        saf.setSize(1920, 1080);
-                        saf.setExtendedState(saf.getExtendedState() | saf.MAXIMIZED_BOTH);
-                        saf.setVisible(true);
-                        this.dispose();
-                    }
-
+                    SuperAdminFrame frame = new SuperAdminFrame();
+                    frame.setSize(1920, 1080);
+                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                    frame.setVisible(true);
+                    this.dispose();
+                } else if (rs.next() && userType.equalsIgnoreCase("admin")) {
+                    AdminFrame frame = new AdminFrame();
+                    frame.setSize(1920, 1080);
+                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                    frame.setVisible(true);
+                    this.dispose();
+                } else if (rs.next() && userType.equalsIgnoreCase("billingchasier")) {
+                    BillingCashierPanel frame = new BillingCashierPanel();
+                    frame.setSize(1920, 1080);
+                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                    frame.setVisible(true);
+                    this.dispose();
+                } else if (rs.next() && userType.equalsIgnoreCase("cashier")) {
+                    CashierFrame frame = new CashierFrame();
+                    frame.setSize(1920, 1080);
+                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                    frame.setVisible(true);
+                    this.dispose();
+                } else {
+                   JOptionPane.showMessageDialog(this, "Invalid Username or Password ", "warning", JOptionPane.WARNING_MESSAGE);
                 }
-
+          
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
