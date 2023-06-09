@@ -4,20 +4,44 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.MySQL;
+import java.sql.ResultSet;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
-/** 
+/**
  *
  * @author Asus
  */
 public class Login extends javax.swing.JFrame {
+
+    public void loadUserType() {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `user_type`");
+            Vector v = new Vector();
+            v.add("Select");
+            while (rs.next()) {
+
+                v.add(rs.getString("name"));
+            }
+            DefaultComboBoxModel dcm = new DefaultComboBoxModel(v);
+            jComboBox1.setModel(dcm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-                  setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+        loadUserType();
     }
 
     /**
@@ -54,6 +78,11 @@ public class Login extends javax.swing.JFrame {
 
         jToggleButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jToggleButton1.setText("Login");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -120,6 +149,48 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+
+        String username = jTextField1.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        String userType = jComboBox1.getSelectedItem().toString();
+
+        if (username.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your user name.", "warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your password.", "warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (userType.equalsIgnoreCase("select")) {
+            JOptionPane.showConfirmDialog(this, "Please select your currect user type.", "warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+
+                ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
+                if (rs.next()) {
+                    System.out.println("ok");
+                    if (userType.equalsIgnoreCase("superadmin")) {
+
+                        SuperAdminFrame saf = new SuperAdminFrame();
+                        saf.setSize(1920, 1080);
+                        saf.setExtendedState(saf.getExtendedState() | saf.MAXIMIZED_BOTH);
+                        saf.setVisible(true);
+                        this.dispose();
+                    }
+
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments

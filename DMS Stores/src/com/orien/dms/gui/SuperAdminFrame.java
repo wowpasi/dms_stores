@@ -1,6 +1,7 @@
 package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
+import javax.swing.ImageIcon;
 
 
 public class SuperAdminFrame extends javax.swing.JFrame {
@@ -24,7 +25,7 @@ public class SuperAdminFrame extends javax.swing.JFrame {
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
-
+  setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
     }
 
     /**
