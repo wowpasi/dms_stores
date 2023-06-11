@@ -25,7 +25,6 @@ public class Splash extends javax.swing.JFrame {
         initComponents();
         setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
 
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
 
     }
 
