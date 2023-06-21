@@ -117,7 +117,7 @@ public class Splash extends javax.swing.JFrame {
                 s.setVisible(true);
 
                 new Thread(() -> {
-                    for (int i = 0; i <= 100; i = i + 4) {
+                    for (int i = 0; i <= 50; i = i + 4) {
                         s.jProgressBar1.setValue(i);
 
                         try {
