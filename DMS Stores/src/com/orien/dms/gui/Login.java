@@ -168,10 +168,7 @@ public class Login extends javax.swing.JFrame {
         } else if (userType.equalsIgnoreCase("select")) {
             JOptionPane.showConfirmDialog(this, "Please select your currect user type.", "warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            System.out.println(username);
-            System.out.println(password);
-            System.out.println(userType);
-
+           
             try {
 
                 ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
@@ -184,9 +181,18 @@ public class Login extends javax.swing.JFrame {
 
                     }
                     if (userType.equalsIgnoreCase("admin")) {
+                        
+                        String id = rs.getString("user_status_id");
+                        if(id.equals("1")){
+                        
+                        
                         AdminFrame frame = new AdminFrame();
                         frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                         frame.setVisible(true);
+                        
+                        }else{
+                        JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the head of your organization");
+                        }
                     }
                     if (userType.equalsIgnoreCase("billingchasier")) {
                         BillingCashierPanel frame = new BillingCashierPanel();
