@@ -14,12 +14,12 @@ import javax.swing.SwingUtilities;
  *
  * @author Asus
  */
-public class SuperAdminDashboardPanel extends javax.swing.JPanel {
+public class AdminDashboard extends javax.swing.JPanel {
     JPanel jPanel;
     /**
      * Creates new form SuperAdminDashboardPanel
      */
-    public SuperAdminDashboardPanel(JPanel jPanel) {
+    public AdminDashboard(JPanel jPanel) {
         initComponents();
         this.jPanel=jPanel;
         setSize(jPanel.getSize());

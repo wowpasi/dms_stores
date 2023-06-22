@@ -243,9 +243,9 @@ public class AdminFrame extends javax.swing.JFrame {
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jLabel1.setText("Dashboard(Admin)");
+        jLabel1.setText("Dashboard");
 
-        SuperAdminDashboard adminDashboard = new SuperAdminDashboard();
+        AdminDashboard adminDashboard = new AdminDashboard(this.jPanel3);
         this.jPanel3.removeAll();
         this.jPanel3.add(adminDashboard);
         this.jPanel3.revalidate();
