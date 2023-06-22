@@ -23,7 +23,7 @@ public class Splash extends javax.swing.JFrame {
     public Splash() {
 
         initComponents();
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
 
 
     }

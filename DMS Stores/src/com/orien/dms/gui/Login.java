@@ -4,6 +4,7 @@
  */
 package com.orien.dms.gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.orien.dms.model.MySQL;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -39,8 +40,9 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
+          FlatLightLaf.setup();
         initComponents();
-        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
         loadUserType();
     }
 
@@ -174,25 +176,21 @@ public class Login extends javax.swing.JFrame {
                 if (rs.next() && userType.equalsIgnoreCase("superadmin")) {
 
                     SuperAdminFrame frame = new SuperAdminFrame();
-                    frame.setSize(1920, 1080);
                     frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                     frame.setVisible(true);
 
                 } else if (rs.next() && userType.equalsIgnoreCase("admin")) {
                     AdminFrame frame = new AdminFrame();
-                    frame.setSize(1920, 1080);
                     frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                     frame.setVisible(true);
 
                 } else if (rs.next() && userType.equalsIgnoreCase("billingchasier")) {
                     BillingCashierPanel frame = new BillingCashierPanel();
-                    frame.setSize(1920, 1080);
                     frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                     frame.setVisible(true);
 
                 } else if (rs.next() && userType.equalsIgnoreCase("cashier")) {
                     CashierFrame frame = new CashierFrame();
-                    frame.setSize(1920, 1080);
                     frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                     frame.setVisible(true);
 

@@ -292,11 +292,11 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        jLabel1.setText("Manage Cashiers");
+        jLabel1.setText("Manage Products");
 
-        AdminCashierManagement adminCashierManagement=new AdminCashierManagement(this.jPanel3);
+        ProductManagePanel productManagePanel=new ProductManagePanel(this.jPanel3);
         this.jPanel3.removeAll();
-        this.jPanel3.add(adminCashierManagement);
+        this.jPanel3.add(productManagePanel);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton5ActionPerformed
