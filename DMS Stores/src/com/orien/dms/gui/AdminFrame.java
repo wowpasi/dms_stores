@@ -28,7 +28,7 @@ public class AdminFrame extends javax.swing.JFrame {
             }
         }).start();
  
-       setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+       setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
 
         
 

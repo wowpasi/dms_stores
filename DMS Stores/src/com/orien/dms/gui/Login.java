@@ -40,7 +40,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-          FlatLightLaf.setup();
+        FlatLightLaf.setup();
         initComponents();
         setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
         loadUserType();
@@ -168,32 +168,38 @@ public class Login extends javax.swing.JFrame {
         } else if (userType.equalsIgnoreCase("select")) {
             JOptionPane.showConfirmDialog(this, "Please select your currect user type.", "warning", JOptionPane.WARNING_MESSAGE);
         } else {
+            System.out.println(username);
+            System.out.println(password);
+            System.out.println(userType);
 
             try {
 
                 ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
-//                if (rs.next()) {
-                if (rs.next() && userType.equalsIgnoreCase("superadmin")) {
+                if (rs.next()) {
+                    if (userType.equalsIgnoreCase("superadmin")) {
 
-                    SuperAdminFrame frame = new SuperAdminFrame();
-                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                    frame.setVisible(true);
+                        SuperAdminFrame frame = new SuperAdminFrame();
+                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                        frame.setVisible(true);
 
-                } else if (rs.next() && userType.equalsIgnoreCase("admin")) {
-                    AdminFrame frame = new AdminFrame();
-                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                    frame.setVisible(true);
+                    }
+                    if (userType.equalsIgnoreCase("admin")) {
+                        AdminFrame frame = new AdminFrame();
+                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                        frame.setVisible(true);
+                    }
+                    if (userType.equalsIgnoreCase("billingchasier")) {
+                        BillingCashierPanel frame = new BillingCashierPanel();
+                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                        frame.setVisible(true);
 
-                } else if (rs.next() && userType.equalsIgnoreCase("billingchasier")) {
-                    BillingCashierPanel frame = new BillingCashierPanel();
-                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                    frame.setVisible(true);
+                    }
+                    if (userType.equalsIgnoreCase("cashier")) {
+                        CashierFrame frame = new CashierFrame();
+                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                        frame.setVisible(true);
 
-                } else if (rs.next() && userType.equalsIgnoreCase("cashier")) {
-                    CashierFrame frame = new CashierFrame();
-                    frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                    frame.setVisible(true);
-
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid Username or Password ", "warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -201,7 +207,7 @@ public class Login extends javax.swing.JFrame {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            this.dispose();
+//            this.dispose();
         }
 
 
