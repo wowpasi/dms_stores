@@ -314,7 +314,11 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+             jLabel1.setText("Cashiers Management");
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new AdminCashierManagement(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
