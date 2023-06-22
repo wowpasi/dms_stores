@@ -52,6 +52,32 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
         }
     }
 
+    public void loadUser(String text) {
+
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE user.nic LIKE '\"+text+\"%' OR user.first_name LIKE '\"+text+\"%' ORDER BY `user`.`first_name` ASC");
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("user.nic"));
+                v.add(rs.getString("user.first_name") + " " + rs.getString("user.last_name"));
+                v.add(rs.getString("user.user_name"));
+                v.add(rs.getString("user.contact_no"));
+                v.add(rs.getString("gender.name"));
+                v.add(rs.getString("address.line1") + "," + rs.getString("address.line2"));
+                v.add(rs.getString("user_status.name"));
+
+                dtm.addRow(v);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadGender() {
         try {
             ResultSet data = MySQL.search("SELECT * FROM `gender`");
@@ -383,6 +409,11 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
         jLabel12.setText("Search :");
 
         jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -690,7 +721,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                     jTextField6.setText(rs.getString("user.email"));
                     jTextField8.setText(rs.getString("address.line1"));
                     jTextField9.setText(rs.getString("address.line2"));
-                    jComboBox1.setSelectedIndex(0);
+                    jComboBox1.setSelectedItem(rs.getString("gender.name"));
                     jPasswordField1.setText(rs.getString("user.password"));
                     jLabel10.setText("None");
                     jLabel11.setText("None");
@@ -733,6 +764,19 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        // TODO add your handling code here:
+        String text = jTextField7.getText();
+        loadUser(text);
+        if (evt.getKeyCode() == 8) {
+            if (text.length() == 0) {
+                loadUser();
+            }
+        }
+
+
+    }//GEN-LAST:event_jTextField7KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
