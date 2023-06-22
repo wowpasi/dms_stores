@@ -8,12 +8,12 @@ package com.orien.dms.gui;
  *
  * @author wijay
  */
-public class AdminDashboard extends javax.swing.JPanel {
+public class SuperAdminDashboard extends javax.swing.JPanel {
 
     /**
      * Creates new form AdminDashboard
      */
-    public AdminDashboard() {
+    public SuperAdminDashboard() {
         initComponents();
         
     }
