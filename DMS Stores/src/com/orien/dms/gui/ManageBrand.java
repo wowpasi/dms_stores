@@ -327,13 +327,13 @@ public class ManageBrand extends javax.swing.JFrame {
             jTextField1.setText("");
             clearField();
             loadBrand();
-        } else if (evt.getClickCount() == 2) {
+        } else if (evt.getClickCount() == 3) {
             jTextField1.setText(name);
             jButton1.setText("Update Brand");
             jButton2.setText("View Status");
-        } else if (evt.getClickCount() == 3) {
-            panel.jLabel6.setText(id);
-            panel.jLabel11.setText(name);
+        } else if (evt.getClickCount() == 2) {
+//            panel.jLabel6.setText(id);
+//            panel.jLabel11.setText(name);
             this.dispose();
         }
     }//GEN-LAST:event_jTable1MouseClicked
