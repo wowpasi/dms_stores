@@ -20,20 +20,20 @@ import javax.swing.table.DefaultTableModel;
  * @author Asus
  */
 public class SuperAdminManagementPlanel extends javax.swing.JPanel {
-
+    
     JPanel jPanel;
 
     /**
      * Creates new form SuperAdminManagementPlanel
      */
     public void loadUser() {
-
+        
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` ORDER BY `user`.`first_name` ASC");
-
+            
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-
+            
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getString("user.nic"));
@@ -43,23 +43,23 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                 v.add(rs.getString("gender.name"));
                 v.add(rs.getString("address.line1") + "," + rs.getString("address.line2"));
                 v.add(rs.getString("user_status.name"));
-
+                
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public void loadUser(String text) {
-
+        
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE user.nic LIKE '\"+text+\"%' OR user.first_name LIKE '\"+text+\"%' ORDER BY `user`.`first_name` ASC");
-
+            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE user.nic LIKE '" + text + "%' OR user.first_name LIKE '" + text + "%' ORDER BY `user`.`first_name` ASC");
+            
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-
+            
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getString("user.nic"));
@@ -69,15 +69,15 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                 v.add(rs.getString("gender.name"));
                 v.add(rs.getString("address.line1") + "," + rs.getString("address.line2"));
                 v.add(rs.getString("user_status.name"));
-
+                
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public void loadGender() {
         try {
             ResultSet data = MySQL.search("SELECT * FROM `gender`");
@@ -88,29 +88,32 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
             }
             DefaultComboBoxModel dcm = new DefaultComboBoxModel(v);
             jComboBox1.setModel(dcm);
-
+            
         } catch (Exception e) {
         }
     }
-
+    
     public void clearFields() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jTextField5.setEnabled(true);
         jTextField6.setText("");
         jTextField8.setText("");
         jTextField9.setText("");
         jComboBox1.setSelectedIndex(0);
         jPasswordField1.setText("");
+        jButton1.setText("Register Admin");
+        jTextField1.setEnabled(true);
     }
-
+    
     public SuperAdminManagementPlanel(JPanel jPanel) {
         initComponents();
         this.jPanel = jPanel;
         setSize(jPanel.getSize());
-
+        
         loadGender();
         loadUser();
         revalidate();
@@ -519,7 +522,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
 
         if (!Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
             evt.consume();
-
+            
         }
 
     }//GEN-LAST:event_jTextField5KeyTyped
@@ -548,8 +551,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         clearFields();
-        jButton1.setText("Register Admin");
-        jTextField1.setEnabled(true);
+        
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -560,21 +562,19 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
+        String nic = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        String username = jTextField4.getText();
+        String contact = jTextField5.getText();
+        String email = jTextField6.getText();
+        String line1 = jTextField8.getText();
+        String line2 = jTextField9.getText();
+        String gender = jComboBox1.getSelectedItem().toString();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        
         if (jButton1.getText().equalsIgnoreCase("register admin")) {
             new Thread(() -> {
-
-                String nic = jTextField1.getText();
-                String fname = jTextField2.getText();
-                String lname = jTextField3.getText();
-                String username = jTextField4.getText();
-                String contact = jTextField5.getText();
-                String email = jTextField6.getText();
-                String line1 = jTextField8.getText();
-                String line2 = jTextField9.getText();
-                String gender = jComboBox1.getSelectedItem().toString();
-                String password = String.valueOf(jPasswordField1.getPassword());
-
                 if (nic.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Please enter the NIC number.", "warining", JOptionPane.WARNING_MESSAGE);
                 } else if (!Pattern.compile("^([0-9]{9}[v|V]|[0-9]{12})$").matcher(nic).matches()) {
@@ -598,64 +598,111 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                 } else if (password.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Please enter the password", "warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-
+                    
                     try {
                         boolean start = false;
                         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
                         boolean isFound = false;
-
+                        
                         if (start) {
-
+                            
                             for (int i = 0; i < dtm.getRowCount(); i++) {
-
+                                
                                 String NIC = jTable1.getValueAt(i, 0).toString();
-
+                                
                                 if (NIC.equals(nic)) {
                                     isFound = true;
-
+                                    
                                     break;
                                 }
                             }
                         }
                         start = true;
-
+                        
                         if (isFound) {
                             clearFields();
                             JOptionPane.showMessageDialog(this, "This NIC already registered", "warning", JOptionPane.WARNING_MESSAGE);
                         } else {
-
+                            
                             ResultSet rs2 = MySQL.search("SELECT * FROM `user_type` WHERE `name`='Admin'");
                             rs2.next();
                             String user_type_id = rs2.getString("id");
-
+                            
                             ResultSet rs1 = MySQL.search("SELECT * FROM `gender` WHERE `name`='" + gender + "'");
                             rs1.next();
                             String gender_id = rs1.getString("id");
-
+                            
                             MySQL.iud("INSERT INTO `address`(`line1`,`line2`) VALUES('" + line1 + "','" + line2 + "')");
-
+                            
                             ResultSet rs3 = MySQL.search("SELECT LAST_INSERT_ID()");
                             rs3.next();
                             String address_id = rs3.getString(1);
-
+                            
                             MySQL.iud("INSERT INTO `user`(`nic`,`first_name`,`last_name`,`user_name`,`password`,`contact_no`,`email`,`user_status_id`,`user_type_id`,`gender_id`,`address_id`) VALUES('" + nic + "','" + fname + "','" + lname + "','" + username + "','" + password + "','" + contact + "','" + email + "','1','" + user_type_id + "','" + gender_id + "','" + address_id + "')");
-
+                            
                             clearFields();
                             JOptionPane.showMessageDialog(this, "Successfully regitered new user", "success", JOptionPane.INFORMATION_MESSAGE);
-
+                            
                             loadUser();
                         }
-
+                        
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    JOptionPane.showMessageDialog(this, "Success.......", "success", JOptionPane.INFORMATION_MESSAGE);
+                    
                 }
-
+                
             }).start();
         } else {
-            System.out.println("done");
+            
+            new Thread(() -> {
+                if (fname.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the first name", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (lname.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the last name", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (contact.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter contact number", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (!Pattern.compile("^(0)(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\\d)\\d{6}$").matcher(contact).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid contact number", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (line1.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the address line 1", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (line2.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the address lin 2", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (gender.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please select the gender", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (username.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the user name", "warning", JOptionPane.WARNING_MESSAGE);
+                } else if (password.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter the password", "warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    
+                    try {
+                        
+                        ResultSet rs2 = MySQL.search("SELECT * FROM `user` WHERE `nic`='" + nic + "'");
+                        rs2.next();
+                        String address_id = rs2.getString("address_id");
+                        
+                        ResultSet rs1 = MySQL.search("SELECT * FROM `gender` WHERE `name`='" + gender + "'");
+                        rs1.next();
+                        String gender_id = rs1.getString("id");
+                        
+                        MySQL.iud("UPDATE `address` SET `line1`='" + line1 + "',`line2`='" + line2 + "' WHERE `id`='" + address_id + "'");
+                        
+                        MySQL.iud("UPDATE `user` SET `first_name`='" + fname + "',`last_name`='" + lname + "',`user_name`='" + username + "',`password`='" + password + "',`contact_no`='" + contact + "',`email`='" + email + "',`gender_id`='" + gender_id + "' WHERE `nic`='" + nic + "'");
+                        
+                        clearFields();
+                        JOptionPane.showMessageDialog(this, "Successfully updated admin", "success", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        loadUser();
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    
+                }
+                
+            }).start();
+            
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -673,7 +720,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int length = jTextField1.getText().length();
         String keyChar = ((Object) evt.getKeyChar()).toString();
-
+        
         if (length == 10 && keyChar.equalsIgnoreCase("v")) {
             jTextField1.setEnabled(false);
             jTextField2.grabFocus();
@@ -695,7 +742,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
             } else {
                 JOptionPane.showConfirmDialog(this, "Primarykey Cannot be null", "warning", JOptionPane.WARNING_MESSAGE);
             }
-
+            
         }
     }//GEN-LAST:event_jTextField1MouseClicked
 
@@ -703,14 +750,15 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
         if (evt.getClickCount() == 1) {
-
+            
             jLabel10.setText(jTable1.getValueAt(row, 0).toString());
             jLabel11.setText(jTable1.getValueAt(row, 1).toString());
+            jButton1.setText("Register Admin");
             clearFields();
         } else if (evt.getClickCount() == 2) {
             try {
                 ResultSet rs = MySQL.search("SELECT * FROM user INNER JOIN user_type ON user.user_type_id=user_type.id INNER JOIN address ON user.address_id=address.id INNER JOIN gender ON user.gender_id=gender.id WHERE user.nic='" + jTable1.getValueAt(row, 0).toString() + "'");
-
+                
                 if (rs.next()) {
                     jTextField1.setText(rs.getString("user.nic"));
                     jTextField1.setEnabled(false);
@@ -726,12 +774,12 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                     jLabel10.setText("None");
                     jLabel11.setText("None");
                     jButton1.setText("Update Admin");
-
+                    
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -749,19 +797,19 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                 ResultSet rs = MySQL.search("SELECT * FROM user WHERE nic='" + nic + "'");
                 rs.next();
                 String id = rs.getString("user_status_id");
-
+                
                 if (id.equals("1")) {
-
+                    
                     MySQL.iud("UPDATE user SET user_status_id='2' WHERE nic='" + nic + "'");
                 } else {
-
+                    
                     MySQL.iud("UPDATE user SET user_status_id='1' WHERE nic='" + nic + "'");
                 }
                 loadUser();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -774,7 +822,7 @@ public class SuperAdminManagementPlanel extends javax.swing.JPanel {
                 loadUser();
             }
         }
-
+        
 
     }//GEN-LAST:event_jTextField7KeyReleased
 

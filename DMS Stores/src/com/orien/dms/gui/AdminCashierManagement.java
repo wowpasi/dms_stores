@@ -8,11 +8,15 @@ import com.mysql.cj.protocol.Resultset;
 import com.orien.dms.model.MySQL;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.util.Enumeration;
 import java.util.Vector;
 import java.util.regex.Pattern;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +33,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
     public void loadUser() {
 
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` ORDER BY `user`.`first_name` ASC");
+            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE `user_type`.`name`='Cashier' || `user_type`.`name`='BillingCashier'  ORDER BY `user`.`first_name` ASC");
 
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
@@ -69,15 +73,18 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
     public void clearFields() {
         jTextField1.setText("");
+        jTextField1.setEnabled(true);
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jTextField5.setEnabled(true);
         jTextField6.setText("");
         jTextField8.setText("");
         jTextField9.setText("");
         jComboBox1.setSelectedIndex(0);
         jPasswordField1.setText("");
+        buttonGroup2.clearSelection();
     }
 
     public AdminCashierManagement(JPanel jPanel) {
@@ -236,7 +243,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
         jTextField9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Register Admin");
+        jButton1.setText("Register Chasiers");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -565,6 +572,16 @@ public class AdminCashierManagement extends javax.swing.JPanel {
             String gender = jComboBox1.getSelectedItem().toString();
             String password = String.valueOf(jPasswordField1.getPassword());
 
+            String type = null;
+
+            Enumeration<AbstractButton> elements = buttonGroup2.getElements();
+            while (elements.hasMoreElements()) {
+                AbstractButton nextElement = elements.nextElement();
+                if (nextElement.isSelected()) {
+                    type = ((JRadioButton) nextElement).getText();
+                }
+            }
+
             if (nic.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the NIC number.", "warining", JOptionPane.WARNING_MESSAGE);
             } else if (!Pattern.compile("^([0-9]{9}[v|V]|[0-9]{12})$").matcher(nic).matches()) {
@@ -587,6 +604,8 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter the user name", "warning", JOptionPane.WARNING_MESSAGE);
             } else if (password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the password", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (type == null) {
+                JOptionPane.showMessageDialog(this, "Please select user type", "warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 try {
@@ -614,7 +633,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "This NIC already registered", "warning", JOptionPane.WARNING_MESSAGE);
                     } else {
 
-                        ResultSet rs2 = MySQL.search("SELECT * FROM `user_type` WHERE `name`='Admin'");
+                        ResultSet rs2 = MySQL.search("SELECT * FROM `user_type` WHERE `name`='" + type + "'");
                         rs2.next();
                         String user_type_id = rs2.getString("id");
 
@@ -623,7 +642,6 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                         String gender_id = rs1.getString("id");
 
                         MySQL.iud("INSERT INTO `address`(`line1`,`line2`) VALUES('" + line1 + "','" + line2 + "')");
-
                         ResultSet rs3 = MySQL.search("SELECT LAST_INSERT_ID()");
                         rs3.next();
                         String address_id = rs3.getString(1);
@@ -631,18 +649,14 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                         MySQL.iud("INSERT INTO `user`(`nic`,`first_name`,`last_name`,`user_name`,`password`,`contact_no`,`email`,`user_status_id`,`user_type_id`,`gender_id`,`address_id`) VALUES('" + nic + "','" + fname + "','" + lname + "','" + username + "','" + password + "','" + contact + "','" + email + "','1','" + user_type_id + "','" + gender_id + "','" + address_id + "')");
 
                         clearFields();
-                        JOptionPane.showMessageDialog(this, "Successfully regitered new user", "success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Successfully regitered new system user", "success", JOptionPane.INFORMATION_MESSAGE);
 
                         loadUser();
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                JOptionPane.showMessageDialog(this, "Success.......", "success", JOptionPane.INFORMATION_MESSAGE);
             }
-
         }).start();
 
     }//GEN-LAST:event_jButton1ActionPerformed
