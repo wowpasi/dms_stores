@@ -19,15 +19,15 @@ public class AdminFrame extends javax.swing.JFrame {
      */
     public AdminFrame() {
         initComponents();
-        
-           jLabel1.setText("Dashboard");
+
+        jLabel1.setText("Dashboard");
 
         AdminDashboard adminDashboard = new AdminDashboard(this.jPanel3);
         this.jPanel3.removeAll();
         this.jPanel3.add(adminDashboard);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
-        
+
 //        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
         new Thread(() -> {
             while (true) {
@@ -35,10 +35,8 @@ public class AdminFrame extends javax.swing.JFrame {
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
- 
-       setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
 
-        
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
 
     }
 
@@ -317,7 +315,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jLabel1.setText("Manage Products");
 
-        ProductManagePanel productManagePanel=new ProductManagePanel(this.jPanel3);
+        ProductManagePanel productManagePanel = new ProductManagePanel(this.jPanel3);
         this.jPanel3.removeAll();
         this.jPanel3.add(productManagePanel);
         this.jPanel3.revalidate();
@@ -337,7 +335,7 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-             jLabel1.setText("Cashiers Management");
+        jLabel1.setText("Cashiers Management");
         this.jPanel3.removeAll();
         this.jPanel3.add(new AdminCashierManagement(this.jPanel3));
         this.jPanel3.revalidate();
@@ -345,10 +343,10 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
+
         new Login().setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

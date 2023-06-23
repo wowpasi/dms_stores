@@ -72,6 +72,17 @@ public class AdminCashierManagement extends javax.swing.JPanel {
         }
     }
 
+//    public String getType() {
+//        Enumeration<AbstractButton> elements = buttonGroup2.getElements();
+//        while (elements.hasMoreElements()) {
+//            AbstractButton nextElement = elements.nextElement();
+//            if (nextElement.isSelected()) {
+//                return ((JRadioButton) nextElement).getText();
+//            }
+//        }
+//        return null;
+//        
+//    }
     public void clearFields() {
         jTextField1.setText("");
         jTextField1.setEnabled(true);
@@ -86,6 +97,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jPasswordField1.setText("");
         buttonGroup2.clearSelection();
+        jButton1.setText("Register Cashier");
     }
 
     public AdminCashierManagement(JPanel jPanel) {
@@ -244,7 +256,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
         jTextField9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Register Chasiers");
+        jButton1.setText("Register Cashier");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -273,6 +285,11 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setText("Change Status");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Cashier Type :");
@@ -560,30 +577,28 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String nic = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        String username = jTextField4.getText();
+        String contact = jTextField5.getText();
+        String email = jTextField6.getText();
+        String line1 = jTextField8.getText();
+        String line2 = jTextField9.getText();
+        String gender = jComboBox1.getSelectedItem().toString();
+        String password = String.valueOf(jPasswordField1.getPassword());
 
-        new Thread(() -> {
+        String type = null;
 
-            String nic = jTextField1.getText();
-            String fname = jTextField2.getText();
-            String lname = jTextField3.getText();
-            String username = jTextField4.getText();
-            String contact = jTextField5.getText();
-            String email = jTextField6.getText();
-            String line1 = jTextField8.getText();
-            String line2 = jTextField9.getText();
-            String gender = jComboBox1.getSelectedItem().toString();
-            String password = String.valueOf(jPasswordField1.getPassword());
-
-            String type = null;
-
-            Enumeration<AbstractButton> elements = buttonGroup2.getElements();
-            while (elements.hasMoreElements()) {
-                AbstractButton nextElement = elements.nextElement();
-                if (nextElement.isSelected()) {
-                    type = ((JRadioButton) nextElement).getText();
-                }
+        Enumeration<AbstractButton> elements = buttonGroup2.getElements();
+        while (elements.hasMoreElements()) {
+            AbstractButton nextElement = elements.nextElement();
+            if (nextElement.isSelected()) {
+                type = ((JRadioButton) nextElement).getText();
             }
+        }
 
+        if (jButton1.getText().equalsIgnoreCase("register cashier")) {
             if (nic.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the NIC number.", "warining", JOptionPane.WARNING_MESSAGE);
             } else if (!Pattern.compile("^([0-9]{9}[v|V]|[0-9]{12})$").matcher(nic).matches()) {
@@ -611,24 +626,20 @@ public class AdminCashierManagement extends javax.swing.JPanel {
             } else {
 
                 try {
-                    boolean start = false;
+
                     DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
                     boolean isFound = false;
 
-                    if (start) {
+                    for (int i = 0; i < dtm.getRowCount(); i++) {
 
-                        for (int i = 0; i < dtm.getRowCount(); i++) {
+                        String NIC = jTable1.getValueAt(i, 0).toString();
 
-                            String NIC = jTable1.getValueAt(i, 0).toString();
+                        if (NIC.equals(nic)) {
+                            isFound = true;
 
-                            if (NIC.equals(nic)) {
-                                isFound = true;
-
-                                break;
-                            }
+                            break;
                         }
                     }
-                    start = true;
 
                     if (isFound) {
                         clearFields();
@@ -659,8 +670,59 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        } else if (jButton1.getText().equalsIgnoreCase("update cashier")) {
+            if (fname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the first name", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (lname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the last name", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (contact.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter contact number", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!Pattern.compile("^(0)(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\\d)\\d{6}$").matcher(contact).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid contact number", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the address line 1", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the address lin 2", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (gender.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select the gender", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the user name", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the password", "warning", JOptionPane.WARNING_MESSAGE);
+            } else if (type == null) {
+                JOptionPane.showMessageDialog(this, "Please select user type", "warning", JOptionPane.WARNING_MESSAGE);
+            } else {
 
+                try {
+
+                    ResultSet rs1 = MySQL.search("SELECT * FROM `user_type` WHERE `name`='" + type + "'");
+                    rs1.next();
+                    String user_type_id = rs1.getString("id");
+
+                    ResultSet rs2 = MySQL.search("SELECT * FROM `user` WHERE `nic`='" + nic + "'");
+                    rs2.next();
+                    String address_id = rs2.getString("address_id");
+
+                    ResultSet rs3 = MySQL.search("SELECT * FROM `gender` WHERE `name`='" + gender + "'");
+                    rs3.next();
+                    String gender_id = rs3.getString("id");
+
+                    MySQL.iud("UPDATE `address` SET `line1`='" + line1 + "',`line2`='" + line2 + "' WHERE `id`='" + address_id + "'");
+
+                    MySQL.iud("UPDATE `user` SET `first_name`='" + fname + "',`last_name`='" + lname + "',`user_name`='" + username + "',`password`='" + password + "',`contact_no`='" + contact + "',`email`='" + email + "',`gender_id`='" + gender_id + "',`user_type_id`='" + user_type_id + "' WHERE `nic`='" + nic + "'");
+
+                    clearFields();
+                    JOptionPane.showMessageDialog(this, "Successfully updated cashier", "success", JOptionPane.INFORMATION_MESSAGE);
+
+                    loadUser();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
@@ -690,22 +752,58 @@ public class AdminCashierManagement extends javax.swing.JPanel {
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-            jTextField1.setText("");
-            jTextField1.setEnabled(true);
-            jTextField1.grabFocus();
+            if (jButton1.getText().equalsIgnoreCase("register cashier")) {
+                jTextField1.setText("");
+                jTextField1.setEnabled(true);
+                jTextField1.grabFocus();
+            } else {
+                JOptionPane.showConfirmDialog(this, "Primarykey Cannot be null", "warning", JOptionPane.WARNING_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
         if (evt.getClickCount() == 1) {
-            int row = jTable1.getSelectedRow();
 
             jLabel10.setText(jTable1.getValueAt(row, 0).toString());
             jLabel11.setText(jTable1.getValueAt(row, 1).toString());
-
+            clearFields();
         } else if (evt.getClickCount() == 2) {
-            System.out.println(evt);
+            try {
+                ResultSet rs = MySQL.search("SELECT * FROM user INNER JOIN user_type ON user.user_type_id=user_type.id INNER JOIN address ON user.address_id=address.id INNER JOIN gender ON user.gender_id=gender.id WHERE user.nic='" + jTable1.getValueAt(row, 0).toString() + "'");
+
+                if (rs.next()) {
+                    jTextField1.setText(rs.getString("user.nic"));
+                    jTextField1.setEnabled(false);
+                    jTextField2.setText(rs.getString("user.first_name"));
+                    jTextField3.setText(rs.getString("user.last_name"));
+                    jTextField4.setText(rs.getString("user.user_name"));
+                    jTextField5.setText(rs.getString("user.contact_no"));
+                    jTextField6.setText(rs.getString("user.email"));
+                    jTextField8.setText(rs.getString("address.line1"));
+                    jTextField9.setText(rs.getString("address.line2"));
+                    jComboBox1.setSelectedItem(rs.getString("gender.name"));
+                    jPasswordField1.setText(rs.getString("user.password"));
+
+                    String type = rs.getString("user_type.name");
+
+                    if (type.equalsIgnoreCase(jRadioButton1.getText())) {
+                        jRadioButton1.setSelected(true);
+                    } else {
+                        jRadioButton2.setSelected(true);
+                    }
+
+                    jLabel10.setText("None");
+                    jLabel11.setText("None");
+                    jButton1.setText("Update Cashier");
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -717,6 +815,32 @@ public class AdminCashierManagement extends javax.swing.JPanel {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String nic = jLabel10.getText();
+        if (nic.equalsIgnoreCase("None")) {
+            JOptionPane.showConfirmDialog(this, "Please select right admin from table", "warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet rs = MySQL.search("SELECT * FROM user WHERE nic='" + nic + "'");
+                rs.next();
+                String id = rs.getString("user_status_id");
+
+                if (id.equals("1")) {
+
+                    MySQL.iud("UPDATE user SET user_status_id='2' WHERE nic='" + nic + "'");
+                } else {
+
+                    MySQL.iud("UPDATE user SET user_status_id='1' WHERE nic='" + nic + "'");
+                }
+                loadUser();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
