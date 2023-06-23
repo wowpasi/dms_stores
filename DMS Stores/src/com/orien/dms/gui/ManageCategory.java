@@ -15,10 +15,12 @@ import javax.swing.table.DefaultTableModel;
  * @author wijay
  */
 public class ManageCategory extends javax.swing.JFrame {
-    
+
+    String cid;
+
     public void loadCategory() {
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `category` INNER JOIN `status` ON category.status_id=status.id");
+            ResultSet rs = MySQL.search("SELECT * FROM `category` INNER JOIN `status` ON category.status_id=status.id ORDER BY status.name ASC");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
             while (rs.next()) {
@@ -28,17 +30,39 @@ public class ManageCategory extends javax.swing.JFrame {
                 v.add(rs.getString("status.name"));
                 dtm.addRow(v);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
+    public void loadCategory(String text) {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `category` INNER JOIN `status` ON category.status_id=status.id WHERE category.name LIKE '" + text + "%' OR status.name LIKE '" + text + "%'");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("id"));
+                v.add(rs.getString("name"));
+                v.add(rs.getString("status.name"));
+                dtm.addRow(v);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public ManageCategory() {
         initComponents();
         loadCategory();
     }
 
+    public void clearField(){
+     jTextField1.setText("");
+        jButton2.setText("View Status");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,7 +103,7 @@ public class ManageCategory extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton2.setText("Deactivate Category");
+        jButton2.setText("View Status");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -102,16 +126,16 @@ public class ManageCategory extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,6 +170,14 @@ public class ManageCategory extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+<<<<<<< Updated upstream
+=======
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+>>>>>>> Stashed changes
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -154,6 +186,11 @@ public class ManageCategory extends javax.swing.JFrame {
         }
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Search");
@@ -211,11 +248,23 @@ public class ManageCategory extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String text = jButton2.getText();
+        if (text.equalsIgnoreCase("View Status")) {
+            if (text.equalsIgnoreCase("active")) {
+                MySQL.iud("UPDATE `category` SET `status_id`='1' WHERE `id`='" + cid + "'");
+            } else {
+                MySQL.iud("UPDATE `category` SET `status_id`='2' WHERE `id`='" + cid + "'");
+            }
+            loadCategory();
+            jButton2.setText("View Status");
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select require category from table", "warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        jTextField1.setText("");
+       clearField();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -226,9 +275,37 @@ public class ManageCategory extends javax.swing.JFrame {
         } else {
             MySQL.iud("INSERT INTO `category`(`name`,`status_id`) VALUES('" + name + "','1')");
             loadCategory();
+            clearField();
             JOptionPane.showMessageDialog(this, "Successfully added", "success", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+
+        String id = jTable1.getValueAt(selectedRow, 2).toString();
+        cid = jTable1.getValueAt(selectedRow, 0).toString();
+
+        if (id.equals("Deactive")) {
+            jButton2.setText("Active");
+        } else {
+            jButton2.setText("Deactive");
+        }
+
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        String text = jTextField2.getText();
+        loadCategory(text);
+        if (evt.getKeyCode() == 8) {
+            if (text.length() == 0) {
+                loadCategory();
+            }
+        }
+    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments

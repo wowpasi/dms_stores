@@ -4,17 +4,64 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.MySQL;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author wijay
  */
 public class ManageBrand extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ManageCategory
-     */
+    String bid;
+
+    public void loadBrand() {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `brand` INNER JOIN `status` ON brand.status_id=status.id ORDER BY status.name ,`brand`.`id` ASC ");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("id"));
+                v.add(rs.getString("name"));
+                v.add(rs.getString("status.name"));
+                dtm.addRow(v);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadBrand(String text) {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `brand` INNER JOIN `status` ON brand.status_id=status.id WHERE brand.name LIKE '" + text + "%' OR status.name LIKE '" + text + "%'");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("id"));
+                v.add(rs.getString("name"));
+                v.add(rs.getString("status.name"));
+                dtm.addRow(v);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearField() {
+        jTextField1.setText("");
+        jButton1.setText("Add Brand");
+    }
+
     public ManageBrand() {
         initComponents();
+        loadBrand();
     }
 
     /**
@@ -50,12 +97,27 @@ public class ManageBrand extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton1.setText("Add Brand");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton2.setText("Deactivate Brand");
+        jButton2.setText("View Status");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton3.setText("Clear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,10 +162,38 @@ public class ManageBrand extends javax.swing.JFrame {
             new String [] {
                 "Brand ID", "Brand Name", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Search");
@@ -115,7 +205,7 @@ public class ManageBrand extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
@@ -158,6 +248,88 @@ public class ManageBrand extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String name = jTextField1.getText();
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter brand name", "warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (jButton1.getText().equalsIgnoreCase("add brand")) {
+                MySQL.iud("INSERT INTO `brand`(`name`,`status_id`) VALUES('" + name + "','1')");
+                loadBrand();
+                clearField();
+                JOptionPane.showMessageDialog(this, "Successfully added", "success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                MySQL.iud("UPDATE `brand` SET `name`='" + name + "' WHERE `id`='" + bid + "' ");
+                loadBrand();
+                clearField();
+                JOptionPane.showMessageDialog(this, "Successfully Updated", "success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String text = jButton2.getText();
+        if (!text.equalsIgnoreCase("View Status")) {
+            if (text.equalsIgnoreCase("active")) {
+                MySQL.iud("UPDATE `brand` SET `status_id`='1' WHERE `id`='" + bid + "'");
+            } else {
+                MySQL.iud("UPDATE `brand` SET `status_id`='2' WHERE `id`='" + bid + "'");
+            }
+            loadBrand();
+            jButton2.setText("View Status");
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select require brand from table", "warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        clearField();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        String text = jTextField2.getText();
+        loadBrand(text);
+        if (evt.getKeyCode() == 8) {
+            if (text.length() == 0) {
+                loadBrand();
+            }
+        }
+    }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+
+        String id = jTable1.getValueAt(selectedRow, 2).toString();
+        bid = jTable1.getValueAt(selectedRow, 0).toString();
+
+        if (evt.getClickCount() == 1) {
+            if (id.equals("Deactive")) {
+                jButton2.setText("Active");
+            } else {
+                jButton2.setText("Deactive");
+            }
+            jTextField1.setText("");
+            clearField();
+            loadBrand();
+        } else if (evt.getClickCount() == 2) {
+            jTextField1.setText(jTable1.getValueAt(selectedRow, 1).toString());
+            jButton1.setText("Update Brand");
+            jButton2.setText("View Status");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        // TODO add your handling code here:
+        System.out.println(evt.getKeyCode());
+//        if(){}
+    }//GEN-LAST:event_jTable1KeyReleased
 
     /**
      * @param args the command line arguments
