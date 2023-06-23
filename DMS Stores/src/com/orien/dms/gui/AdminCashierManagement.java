@@ -33,7 +33,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
     public void loadUser() {
 
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE `user_type`.`name`='Cashier' || `user_type`.`name`='BillingCashier'  ORDER BY `user`.`first_name` ASC");
+            ResultSet rs = MySQL.search("SELECT * FROM `user` INNER JOIN `user_status` ON `user`.`user_status_id`=`user_status`.`id` INNER JOIN `gender` ON `user`.`gender_id`=`gender`.`id` INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` INNER JOIN `address` ON `user`.`address_id`=`address`.`id` WHERE `user_type`.`name`='Cashier' OR `user_type`.`name`='BillingCashier'  ORDER BY `user`.`first_name` ASC");
 
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
@@ -46,6 +46,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
                 v.add(rs.getString("user.contact_no"));
                 v.add(rs.getString("gender.name"));
                 v.add(rs.getString("address.line1") + "," + rs.getString("address.line2"));
+                v.add(rs.getString("user_type.name"));
                 v.add(rs.getString("user_status.name"));
 
                 dtm.addRow(v);
@@ -285,7 +286,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
         });
 
         buttonGroup2.add(jRadioButton2);
-        jRadioButton2.setText("Billing Cashier");
+        jRadioButton2.setText("BillingCashier");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
@@ -417,17 +418,17 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "NIC", "Name", "UserName", "Contact No", "Gender", "address", "Status"
+                "NIC", "Name", "UserName", "Contact No", "Gender", "address", "User Type", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -448,6 +449,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(4).setResizable(false);
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
