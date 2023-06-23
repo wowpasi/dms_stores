@@ -132,7 +132,7 @@ public class CashierFrame extends javax.swing.JFrame {
         });
 
         jButton3.setFont(new java.awt.Font("STLiti", 1, 20)); // NOI18N
-        jButton3.setText("Ongoing Billing");
+        jButton3.setText("Ongoing Invoices");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);

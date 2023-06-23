@@ -10,13 +10,13 @@ import javax.swing.JPanel;
  *
  * @author Asus
  */
-public class BillingCashierOngoingBill extends javax.swing.JPanel {
+public class BillingCashierOngoingInvoice extends javax.swing.JPanel {
 
     private static JPanel jPanel;
     /**
      * Creates new form CashierOngoingBill
      */
-    public BillingCashierOngoingBill(JPanel jPanel) {
+    public BillingCashierOngoingInvoice(JPanel jPanel) {
         initComponents();
         this.jPanel=jPanel;
         setSize(jPanel.getSize());
@@ -98,10 +98,25 @@ public class BillingCashierOngoingBill extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Invoice No", "Time", "Product Total", "Total Price"
+                "Barcode", "Product", "Quantity", "Item Price", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
+            jTable2.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
 

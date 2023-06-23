@@ -192,7 +192,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="STLiti" size="20" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ongoing Billing"/>
+            <Property name="text" type="java.lang.String" value="Ongoing Invoices"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton3MouseClicked"/>
