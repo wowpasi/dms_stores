@@ -194,7 +194,7 @@ public class Login extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the head of your organization");
                         }
                     }
-                    if (userType.equalsIgnoreCase("billingchasier")) {
+                    if (userType.equalsIgnoreCase("billingcashier")) {
 
                         if (id.equals("1")) {
 
