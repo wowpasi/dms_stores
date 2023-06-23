@@ -168,11 +168,13 @@ public class Login extends javax.swing.JFrame {
         } else if (userType.equalsIgnoreCase("select")) {
             JOptionPane.showConfirmDialog(this, "Please select your currect user type.", "warning", JOptionPane.WARNING_MESSAGE);
         } else {
-           
+
             try {
 
                 ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
                 if (rs.next()) {
+                    String id = rs.getString("user_status_id");
+                    
                     if (userType.equalsIgnoreCase("superadmin")) {
 
                         SuperAdminFrame frame = new SuperAdminFrame();
@@ -181,30 +183,41 @@ public class Login extends javax.swing.JFrame {
 
                     }
                     if (userType.equalsIgnoreCase("admin")) {
-                        
-                        String id = rs.getString("user_status_id");
-                        if(id.equals("1")){
-                        
-                        
-                        AdminFrame frame = new AdminFrame();
-                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                        frame.setVisible(true);
-                        
-                        }else{
-                        JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the head of your organization");
+
+                        if (id.equals("1")) {
+
+                            AdminFrame frame = new AdminFrame();
+                            frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                            frame.setVisible(true);
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the head of your organization");
                         }
                     }
                     if (userType.equalsIgnoreCase("billingchasier")) {
-                        BillingCashierPanel frame = new BillingCashierPanel();
-                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                        frame.setVisible(true);
+
+                        if (id.equals("1")) {
+
+                            BillingCashierFrame frame = new BillingCashierFrame();
+                            frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                            frame.setVisible(true);
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the Administrator of your organization");
+                        }
 
                     }
                     if (userType.equalsIgnoreCase("cashier")) {
-                        CashierFrame frame = new CashierFrame();
-                        frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
-                        frame.setVisible(true);
 
+                        if (id.equals("1")) {
+
+                            CashierFrame frame = new CashierFrame();
+                            frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
+                            frame.setVisible(true);
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the Administrator of your organization");
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid Username or Password ", "warning", JOptionPane.WARNING_MESSAGE);
