@@ -289,11 +289,12 @@ JPanel jPanel;
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new ManageCategory().setVisible(true);
+        new ManageCategory(this).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new ManageBrand(this).setVisible(true);
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
