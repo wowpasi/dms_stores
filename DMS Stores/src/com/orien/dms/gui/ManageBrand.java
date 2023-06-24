@@ -332,24 +332,27 @@ public class ManageBrand extends javax.swing.JFrame {
             clearField();
             loadBrand();
         } else if (evt.getClickCount() == 2) {
-
-            panel.jLabel6.setText(bid);
-            panel.jLabel11.setText(name);
-            this.dispose();
+            if (id.equalsIgnoreCase("active")) {
+                panel.jLabel6.setText(bid);
+                panel.jLabel11.setText(name);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Brand is already deactivated, Please use active brand", "warning", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
         // TODO add your handling code here:
         jTextField1.setText("");
-            jButton1.setText("Update Brand");
-            jButton2.setText("View Status");
+        jButton1.setText("Update Brand");
+        jButton2.setText("View Status");
 
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jTable1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseDragged
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_jTable1MouseDragged
 
     /**

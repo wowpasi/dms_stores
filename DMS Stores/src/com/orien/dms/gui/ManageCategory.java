@@ -291,10 +291,9 @@ public class ManageCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         int selectedRow = jTable1.getSelectedRow();
+        String id = jTable1.getValueAt(selectedRow, 2).toString();
+        cid = jTable1.getValueAt(selectedRow, 0).toString();
         if (evt.getClickCount() == 1) {
-
-            String id = jTable1.getValueAt(selectedRow, 2).toString();
-            cid = jTable1.getValueAt(selectedRow, 0).toString();
 
             if (id.equals("Deactive")) {
                 jButton2.setText("Active");
@@ -303,9 +302,14 @@ public class ManageCategory extends javax.swing.JFrame {
             }
 
         } else if (evt.getClickCount() == 2) {
-            panel.jLabel4.setText(cid);
-            panel.jLabel10.setText(jTable1.getValueAt(selectedRow, 1).toString());
-            this.dispose();
+            if (id.equalsIgnoreCase("active")) {
+                panel.jLabel4.setText(cid);
+                panel.jLabel10.setText(jTable1.getValueAt(selectedRow, 1).toString());
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Category is already deactivated, Please use active category", "warning", JOptionPane.WARNING_MESSAGE);
+            }
+
         }
 
     }//GEN-LAST:event_jTable1MouseClicked

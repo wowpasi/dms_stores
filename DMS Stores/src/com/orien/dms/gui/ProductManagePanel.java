@@ -4,21 +4,59 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.MySQL;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author wijay
  */
 public class ProductManagePanel extends javax.swing.JPanel {
-JPanel jPanel;
-    /**
-     * Creates new form ProductManagePanel
-     */
+
+    JPanel jPanel;
+
+    public void clearField() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jLabel4.setText("None");
+        jLabel4.setText("None");
+        jLabel11.setText("None");
+        jLabel10.setText("None");
+        jLabel6.setText("None");
+        jTextField2.setEnabled(true);
+    }
+
+    public void loadProduct() {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` ORDER BY `product`.`id` ASC");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v = new Vector();
+                v.add(rs.getString("product.bar_code"));
+                v.add(rs.getString("product.name"));
+                v.add(rs.getString("category.name"));
+                v.add(rs.getString("brand.name"));
+                v.add(rs.getString("status.name"));
+                dtm.addRow(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public ProductManagePanel(JPanel jPanel) {
         initComponents();
-        this.jPanel=jPanel;
-        
+        this.jPanel = jPanel;
+        loadProduct();
+
     }
 
     /**
@@ -94,6 +132,11 @@ JPanel jPanel;
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("Save Product");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Clear All");
@@ -208,6 +251,11 @@ JPanel jPanel;
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -271,20 +319,97 @@ JPanel jPanel;
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        clearField();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        String code = jTable1.getValueAt(selectedRow, 0).toString();
+
+        if (jButton5.getText().equalsIgnoreCase("change status")) {
+            JOptionPane.showMessageDialog(this, "Please select product first", "warning", JOptionPane.WARNING_MESSAGE);
+        } else if (jButton5.getText().equalsIgnoreCase("active")) {
+            MySQL.iud("UPDATE `product` SET `status_id`='1' WHERE `bar_code`='" + code + "'");
+
+        } else {
+            MySQL.iud("UPDATE `product` SET `status_id`='2' WHERE `bar_code`='" + code + "'");
+        }
+        jButton5.setText("Change Status");
+        loadProduct();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jLabel4.setText("None");
+        jLabel10.setText("None");
         new ManageCategory(this).setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new ManageBrand(this).setVisible(true);
-       
+        jLabel6.setText("None");
+        jLabel11.setText("None");
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String name = jTextField1.getText();
+        String code = jTextField2.getText();
+        String cid = jLabel4.getText();
+        String bid = jLabel6.getText();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter product name", "warning", JOptionPane.WARNING_MESSAGE);
+        } else if (code.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Set product Barcode", "warning", JOptionPane.WARNING_MESSAGE);
+        } else if (cid.equalsIgnoreCase("none")) {
+            JOptionPane.showMessageDialog(this, "Please select category", "warning", JOptionPane.WARNING_MESSAGE);
+        } else if (bid.equalsIgnoreCase("none")) {
+            JOptionPane.showMessageDialog(this, "Please select brand", "warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            MySQL.iud("INSERT INTO `product`(`name`,`bar_code`,`category_id`,`brand_id`,`status_id`) VALUES('" + name + "','" + code + "','" + Integer.parseInt(cid) + "','" + Integer.parseInt(bid) + "','1')");
+            loadProduct();
+            clearField();
+            JOptionPane.showMessageDialog(this, "Successfully registered", "success", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        String status = jTable1.getValueAt(selectedRow, 4).toString();
+        String code = jTable1.getValueAt(selectedRow, 0).toString();
+        if (evt.getClickCount() == 1) {
+            if (status.equalsIgnoreCase("active")) {
+
+                jButton5.setText("Deactive");
+            } else {
+                jButton5.setText("Active");
+            }
+
+        } else if (evt.getClickCount() == 2) {
+            try {
+
+                ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` WHERE `product`.`bar_code`='" + code + "'");
+                if (rs.next()) {
+                    jTextField1.setText(rs.getString("product.name"));
+                    jTextField2.setText(rs.getString("product.bar_code"));
+                    jTextField2.setEnabled(false);
+                    jLabel4.setText(rs.getString("category.id"));
+                    jLabel10.setText(rs.getString("category.name"));
+                    jLabel6.setText(rs.getString("brand.id"));
+                    jLabel11.setText(rs.getString("brand.name"));
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
