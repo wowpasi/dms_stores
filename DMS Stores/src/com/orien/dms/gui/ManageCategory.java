@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageCategory extends javax.swing.JFrame {
 
+    ProductManagePanel panel;
     String cid;
 
     public void loadCategory() {
@@ -59,10 +60,17 @@ public class ManageCategory extends javax.swing.JFrame {
         loadCategory();
     }
 
-    public void clearField(){
-     jTextField1.setText("");
+    public ManageCategory(ProductManagePanel panel) {
+        initComponents();
+        loadCategory();
+        this.panel = panel;
+    }
+
+    public void clearField() {
+        jTextField1.setText("");
         jButton2.setText("View Status");
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,8 +253,9 @@ public class ManageCategory extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String text = jButton2.getText();
-        if (text.equalsIgnoreCase("View Status")) {
+        if (!jButton2.getText().equalsIgnoreCase("view status")) {
+            String text = jButton2.getText();
+
             if (text.equalsIgnoreCase("active")) {
                 MySQL.iud("UPDATE `category` SET `status_id`='1' WHERE `id`='" + cid + "'");
             } else {
@@ -254,6 +263,7 @@ public class ManageCategory extends javax.swing.JFrame {
             }
             loadCategory();
             jButton2.setText("View Status");
+
         } else {
             JOptionPane.showMessageDialog(this, "Please select require category from table", "warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -261,7 +271,7 @@ public class ManageCategory extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-       clearField();
+        clearField();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -279,17 +289,24 @@ public class ManageCategory extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+
         int selectedRow = jTable1.getSelectedRow();
+        if (evt.getClickCount() == 1) {
 
-        String id = jTable1.getValueAt(selectedRow, 2).toString();
-        cid = jTable1.getValueAt(selectedRow, 0).toString();
+            String id = jTable1.getValueAt(selectedRow, 2).toString();
+            cid = jTable1.getValueAt(selectedRow, 0).toString();
 
-        if (id.equals("Deactive")) {
-            jButton2.setText("Active");
-        } else {
-            jButton2.setText("Deactive");
+            if (id.equals("Deactive")) {
+                jButton2.setText("Active");
+            } else {
+                jButton2.setText("Deactive");
+            }
+
+        } else if (evt.getClickCount() == 2) {
+            panel.jLabel4.setText(cid);
+            panel.jLabel10.setText(jTable1.getValueAt(selectedRow, 1).toString());
+            this.dispose();
         }
-
 
     }//GEN-LAST:event_jTable1MouseClicked
 

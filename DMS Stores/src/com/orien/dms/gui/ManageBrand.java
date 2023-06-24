@@ -61,13 +61,13 @@ public class ManageBrand extends javax.swing.JFrame {
         jButton1.setText("Add Brand");
     }
 
-    public ManageBrand(ProductManagePanel panel) {
-        this.panel = this.panel;
+    public ManageBrand() {
         initComponents();
         loadBrand();
     }
 
-    public ManageBrand() {
+    public ManageBrand(ProductManagePanel panel) {
+        this.panel = panel;
         initComponents();
         loadBrand();
     }
@@ -143,8 +143,7 @@ public class ManageBrand extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -178,6 +177,11 @@ public class ManageBrand extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jTable1MouseDragged(evt);
             }
         });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -327,22 +331,26 @@ public class ManageBrand extends javax.swing.JFrame {
             jTextField1.setText("");
             clearField();
             loadBrand();
-        } else if (evt.getClickCount() == 3) {
-            jTextField1.setText(name);
-            jButton1.setText("Update Brand");
-            jButton2.setText("View Status");
         } else if (evt.getClickCount() == 2) {
-//            panel.jLabel6.setText(id);
-//            panel.jLabel11.setText(name);
+
+            panel.jLabel6.setText(bid);
+            panel.jLabel11.setText(name);
             this.dispose();
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
         // TODO add your handling code here:
-        System.out.println(evt.getKeyCode());
-//        if(){}
+        jTextField1.setText("");
+            jButton1.setText("Update Brand");
+            jButton2.setText("View Status");
+
     }//GEN-LAST:event_jTable1KeyReleased
+
+    private void jTable1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseDragged
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_jTable1MouseDragged
 
     /**
      * @param args the command line arguments
