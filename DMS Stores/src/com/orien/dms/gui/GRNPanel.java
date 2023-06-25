@@ -9,12 +9,16 @@ package com.orien.dms.gui;
  * @author wijay
  */
 public class GRNPanel extends javax.swing.JPanel {
-
+AdminFrame frame;
     /**
      * Creates new form GRNPanel
      */
-    public GRNPanel() {
+//    public GRNPanel() {
+//        initComponents();
+//    }
+    public GRNPanel(AdminFrame frame) {
         initComponents();
+        this.frame=frame;
     }
 
     /**
@@ -326,7 +330,7 @@ public class GRNPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       SupplierManagement sm=new SupplierManagement(this, true);
+       SupplierManagement sm=new SupplierManagement(frame, true,this);
        sm.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -337,7 +341,7 @@ public class GRNPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -352,7 +356,7 @@ public class GRNPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    public javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

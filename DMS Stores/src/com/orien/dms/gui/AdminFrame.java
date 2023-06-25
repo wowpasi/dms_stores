@@ -270,7 +270,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jLabel1.setText("Good Recieve Notes");
 
-        GRNPanel gRNPanel = new GRNPanel();
+        GRNPanel gRNPanel = new GRNPanel(this);
         this.jPanel3.removeAll();
         this.jPanel3.add(gRNPanel);
         this.jPanel3.revalidate();
