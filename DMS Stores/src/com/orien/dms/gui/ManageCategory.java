@@ -5,8 +5,11 @@
 package com.orien.dms.gui;
 
 import com.orien.dms.model.MySQL;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,10 +18,10 @@ import javax.swing.table.DefaultTableModel;
  * @author wijay
  */
 public class ManageCategory extends javax.swing.JFrame {
-
-    ProductManagePanel panel;
+    
+   static ProductManagePanel panel;
     String cid;
-
+    
     public void loadCategory() {
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `category` INNER JOIN `status` ON category.status_id=status.id ORDER BY status.name ASC");
@@ -31,12 +34,12 @@ public class ManageCategory extends javax.swing.JFrame {
                 v.add(rs.getString("status.name"));
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+  
     public void loadCategory(String text) {
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `category` INNER JOIN `status` ON category.status_id=status.id WHERE category.name LIKE '" + text + "%' OR status.name LIKE '" + text + "%'");
@@ -49,23 +52,24 @@ public class ManageCategory extends javax.swing.JFrame {
                 v.add(rs.getString("status.name"));
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public ManageCategory() {
         initComponents();
         loadCategory();
     }
-
+    
     public ManageCategory(ProductManagePanel panel) {
         initComponents();
         loadCategory();
         this.panel = panel;
+        
     }
-
+    
     public void clearField() {
         jTextField1.setText("");
         jButton2.setText("View Status");
@@ -255,7 +259,7 @@ public class ManageCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!jButton2.getText().equalsIgnoreCase("view status")) {
             String text = jButton2.getText();
-
+            
             if (text.equalsIgnoreCase("active")) {
                 MySQL.iud("UPDATE `category` SET `status_id`='1' WHERE `id`='" + cid + "'");
             } else {
@@ -263,7 +267,7 @@ public class ManageCategory extends javax.swing.JFrame {
             }
             loadCategory();
             jButton2.setText("View Status");
-
+            
         } else {
             JOptionPane.showMessageDialog(this, "Please select require category from table", "warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -294,25 +298,27 @@ public class ManageCategory extends javax.swing.JFrame {
         String id = jTable1.getValueAt(selectedRow, 2).toString();
         cid = jTable1.getValueAt(selectedRow, 0).toString();
         if (evt.getClickCount() == 1) {
-
+            
             if (id.equals("Deactive")) {
                 jButton2.setText("Active");
             } else {
                 jButton2.setText("Deactive");
             }
-
+            
         } else if (evt.getClickCount() == 2) {
             if (id.equalsIgnoreCase("active")) {
                 panel.jLabel4.setText(cid);
                 panel.jLabel10.setText(jTable1.getValueAt(selectedRow, 1).toString());
+                panel.frame.setEnabled(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Category is already deactivated, Please use active category", "warning", JOptionPane.WARNING_MESSAGE);
             }
-
+            
         }
 
     }//GEN-LAST:event_jTable1MouseClicked
+    
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         // TODO add your handling code here:
@@ -355,7 +361,10 @@ public class ManageCategory extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageCategory().setVisible(true);
+               new ManageCategory().setVisible(true);
+                
+              
+                
             }
         });
     }

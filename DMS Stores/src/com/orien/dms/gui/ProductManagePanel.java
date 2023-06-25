@@ -4,9 +4,13 @@
  */
 package com.orien.dms.gui;
 
+import static com.orien.dms.gui.ManageCategory.panel;
 import com.orien.dms.model.MySQL;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ProductManagePanel extends javax.swing.JPanel {
 
-    JPanel jPanel;
+    AdminFrame frame;
 
     public void clearField() {
         jTextField1.setText("");
@@ -77,9 +81,9 @@ public class ProductManagePanel extends javax.swing.JPanel {
 
     }
 
-    public ProductManagePanel(JPanel jPanel) {
+    public ProductManagePanel(AdminFrame frame) {
         initComponents();
-        this.jPanel = jPanel;
+        this.frame = frame;
         loadProduct();
 
     }
@@ -375,14 +379,43 @@ public class ProductManagePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jLabel4.setText("None");
+        jLabel10.setText("None");
+        frame.setEnabled(false);
+        ManageCategory mc = new ManageCategory(this);
+        mc.setLocationRelativeTo(frame);
+        mc.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        mc.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                frame.setEnabled(true);
+                frame.revalidate();
+                frame.repaint();
+                mc.dispose();
+            }
+        });
+        mc.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new ManageBrand(this).setVisible(true);
         jLabel6.setText("None");
         jLabel11.setText("None");
+        frame.setEnabled(false);
+        ManageBrand mb = new ManageBrand(this);
+        mb.setVisible(true);
+        mb.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        mb.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                frame.setEnabled(true);
+                frame.revalidate();
+                frame.repaint();
+                mb.dispose();
+            }
+        });
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -471,11 +504,7 @@ public class ProductManagePanel extends javax.swing.JPanel {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 1) {
-            jLabel4.setText("None");
-            jLabel10.setText("None");
-            new ManageCategory(this).setVisible(true);
-        }
+
     }//GEN-LAST:event_jButton1MouseClicked
 
 
