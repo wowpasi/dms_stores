@@ -16,9 +16,9 @@ import javax.swing.table.DefaultTableModel;
  * @author wijay
  */
 public class ProductManagePanel extends javax.swing.JPanel {
-    
+
     JPanel jPanel;
-    
+
     public void clearField() {
         jTextField1.setText("");
         jTextField2.setText("");
@@ -30,16 +30,17 @@ public class ProductManagePanel extends javax.swing.JPanel {
         jTextField2.setEnabled(true);
         jButton5.setEnabled(true);
         jButton3.setText("Save Product");
-        jButton5.setText("Change Status");    }
-    
+        jButton5.setText("Change Status");
+    }
+
     public void loadProduct() {
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` ORDER BY `product`.`id` ASC");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-            
+
             while (rs.next()) {
-                
+
                 Vector v = new Vector();
                 v.add(rs.getString("product.bar_code"));
                 v.add(rs.getString("product.name"));
@@ -51,17 +52,17 @@ public class ProductManagePanel extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public void loadProduct(String text) {
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` WHERE `product`.`bar_code` LIKE '"+text+"' OR `product`.`name` LIKE '"+text+"%' ORDER BY `status`.`name` ASC");
+            ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` WHERE `product`.`bar_code` LIKE '" + text + "' OR `product`.`name` LIKE '" + text + "%' ORDER BY `status`.`name` ASC");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-            
+
             while (rs.next()) {
-                
+
                 Vector v = new Vector();
                 v.add(rs.getString("product.bar_code"));
                 v.add(rs.getString("product.name"));
@@ -73,14 +74,14 @@ public class ProductManagePanel extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public ProductManagePanel(JPanel jPanel) {
         initComponents();
         this.jPanel = jPanel;
         loadProduct();
-        
+
     }
 
     /**
@@ -134,6 +135,11 @@ public class ProductManagePanel extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Select");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -355,12 +361,12 @@ public class ProductManagePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
         String code = jTable1.getValueAt(selectedRow, 0).toString();
-        
+
         if (jButton5.getText().equalsIgnoreCase("change status")) {
             JOptionPane.showMessageDialog(this, "Please select product first", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (jButton5.getText().equalsIgnoreCase("active")) {
             MySQL.iud("UPDATE `product` SET `status_id`='1' WHERE `bar_code`='" + code + "'");
-            
+
         } else {
             MySQL.iud("UPDATE `product` SET `status_id`='2' WHERE `bar_code`='" + code + "'");
         }
@@ -369,9 +375,7 @@ public class ProductManagePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jLabel4.setText("None");
-        jLabel10.setText("None");
-        new ManageCategory(this).setVisible(true);
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -388,9 +392,9 @@ public class ProductManagePanel extends javax.swing.JPanel {
         String code = jTextField2.getText();
         String cid = jLabel4.getText();
         String bid = jLabel6.getText();
-        
+
         String status;
-        
+
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter product name", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (code.isEmpty()) {
@@ -406,10 +410,10 @@ public class ProductManagePanel extends javax.swing.JPanel {
                 clearField();
                 JOptionPane.showMessageDialog(this, "Successfully registered", "success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                
+
                 if (jButton5.getText().equalsIgnoreCase("active")) {
                 }
-                
+
                 MySQL.iud("UPDATE `product` SET `name`='" + name + "',`category_id`='" + cid + "',`brand_id`='" + bid + "' WHERE bar_code='" + code + "'");
                 loadProduct();
                 clearField();
@@ -426,15 +430,15 @@ public class ProductManagePanel extends javax.swing.JPanel {
         String code = jTable1.getValueAt(selectedRow, 0).toString();
         if (evt.getClickCount() == 1) {
             if (status.equalsIgnoreCase("active")) {
-                
+
                 jButton5.setText("Deactive");
             } else {
                 jButton5.setText("Active");
             }
-            
+
         } else if (evt.getClickCount() == 2) {
             try {
-                
+
                 ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `status` ON `product`.`status_id`=`status`.`id` WHERE `product`.`bar_code`='" + code + "'");
                 if (rs.next()) {
                     jTextField1.setText(rs.getString("product.name"));
@@ -444,7 +448,7 @@ public class ProductManagePanel extends javax.swing.JPanel {
                     jLabel10.setText(rs.getString("category.name"));
                     jLabel6.setText(rs.getString("brand.id"));
                     jLabel11.setText(rs.getString("brand.name"));
-                    
+
                 }
                 jButton3.setText("Update Product");
                 jButton5.setEnabled(false);
@@ -456,7 +460,7 @@ public class ProductManagePanel extends javax.swing.JPanel {
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
         // TODO add your handling code here:
-         String text = jTextField3.getText();
+        String text = jTextField3.getText();
         loadProduct(text);
         if (evt.getKeyCode() == 8) {
             if (text.length() == 0) {
@@ -464,6 +468,15 @@ public class ProductManagePanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+            jLabel4.setText("None");
+            jLabel10.setText("None");
+            new ManageCategory(this).setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
