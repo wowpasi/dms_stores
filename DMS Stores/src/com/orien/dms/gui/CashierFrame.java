@@ -8,6 +8,7 @@ import com.orien.dms.model.DateTime;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
@@ -30,6 +31,8 @@ public class CashierFrame extends javax.swing.JFrame {
 
     public CashierFrame() {
         initComponents();
+                setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+        
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());

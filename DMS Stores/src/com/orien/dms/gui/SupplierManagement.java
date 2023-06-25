@@ -4,6 +4,16 @@
  */
 package com.orien.dms.gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+
 /**
  *
  * @author wijay
@@ -13,18 +23,29 @@ public class SupplierManagement extends javax.swing.JDialog {
     /**
      * Creates new form SupplierManagement
      */
-
     GRNPanel grnp;
-    
+
     public SupplierManagement(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
+        jTable1.getTableHeader().setFont(jTable1.getTableHeader().getFont().deriveFont(Font.BOLD, 16));
+        Font font = new Font("Verdana", Font.PLAIN, 14);
+        jTable1.setFont(font);
+        jTable1.setRowHeight(30);
+        jTable1.setBackground(Color.decode("#b3ecff"));
     }
+
     public SupplierManagement(GRNPanel parent, boolean modal) {
-        
-        this.grnp=parent;
+
+        this.grnp = parent;
         initComponents();
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,7 +169,11 @@ public class SupplierManagement extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
                 "Sup. ID", "Name", "Contact No.", "Email ", "Company"
@@ -253,7 +278,6 @@ public class SupplierManagement extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(SupplierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

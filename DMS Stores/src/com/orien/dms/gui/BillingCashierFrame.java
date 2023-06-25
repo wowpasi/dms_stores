@@ -8,6 +8,7 @@ import com.orien.dms.model.DateTime;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
@@ -22,7 +23,7 @@ public class BillingCashierFrame extends javax.swing.JFrame {
 
     public BillingCashierFrame() {
         initComponents();
-        
+                     setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
  
         
         new Thread(() -> {
@@ -32,8 +33,6 @@ public class BillingCashierFrame extends javax.swing.JFrame {
             }
         }).start();
            jLabel1.setText("Dashboard");
-
-     
     }
 
     /**

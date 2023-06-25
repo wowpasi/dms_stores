@@ -4,6 +4,8 @@
  */
 package com.orien.dms.gui;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author wijay
@@ -17,10 +19,14 @@ GRNPanel grnp;
     public ProductSelect(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+                     setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
     }
     public ProductSelect(GRNPanel parent, boolean modal) {
         this.grnp=parent;
         initComponents();
+                     setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
     }
     /**
      * This method is called from within the constructor to initialize the form.

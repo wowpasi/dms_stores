@@ -19,6 +19,8 @@ public class SuperAdminFrame extends javax.swing.JFrame {
 
     public SuperAdminFrame() {
         initComponents();
+                setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+        
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
