@@ -12,18 +12,25 @@ public class MySQL {
     private static final String PASSWORD = "sulochana123";
     private static final String DATABASE = "dms_db";
 
-    private static Statement createConnection() throws Exception {
-        if (connection == null) {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DATABASE, USERNAME, PASSWORD);
+    private static Connection getConnection() {
+
+        try {
+            if (connection == null) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DATABASE, USERNAME, PASSWORD);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
-        return connection.createStatement();
+
+        return connection;
+
     }
 
     public static void iud(String query) {
         try {
-            createConnection().executeUpdate(query);
+            getConnection().createStatement().executeUpdate(query);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,23 +39,8 @@ public class MySQL {
 
     public static ResultSet search(String query) throws Exception {
 
-        return createConnection().executeQuery(query);
+        return getConnection().createStatement().executeQuery(query);
 
     }
-    
-    public static Connection getConnection() {
-        try {
-            if (connection == null) {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DATABASE, USERNAME, PASSWORD);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-                    
-        }
-
-        return connection;
-    }
-    
 
 }

@@ -32,18 +32,18 @@ public class SupplierManagement extends javax.swing.JDialog {
      */
     GRNPanel grnp;
     String sid;
-    
+
     public void clearField() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
-        jButton1.setText("save supplier");
+        jButton1.setText("Save supplier");
     }
-    
+
     public void loadSupplier() {
         try {
-            ResultSet rs = MySQL.search("SELECT * FROM `supplier` ORDER BY `id` ACS");
+            ResultSet rs = MySQL.search("SELECT * FROM `supplier` ORDER BY `id` ASC");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
             while (rs.next()) {
@@ -59,27 +59,32 @@ public class SupplierManagement extends javax.swing.JDialog {
             e.printStackTrace();
         }
     }
-    
+
+    public void loadSupplier(String text) {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `supplier` WHERE `name` LIKE '"+text+"%' OR `company_name` LIKE '"+text+"%' ORDER BY `id` ASC");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("id"));
+                v.add(rs.getString("name"));
+                v.add(rs.getString("contact"));
+                v.add(rs.getString("email"));
+                v.add(rs.getString("company_name"));
+                dtm.addRow(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public SupplierManagement(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
-        
-        jTable1.getTableHeader().setFont(jTable1.getTableHeader().getFont().deriveFont(Font.BOLD, 16));
-        Font font = new Font("Verdana", Font.PLAIN, 14);
-        jTable1.setFont(font);
-        jTable1.setRowHeight(30);
-        jTable1.setBackground(Color.decode("#b3ecff"));
-        loadSupplier();
-    }
-    
-    public SupplierManagement(java.awt.Frame parent, boolean modal, GRNPanel panel) {
-        super(parent, modal);
-        initComponents();
-        this.grnp = panel;
-        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
-        
+
         jTable1.getTableHeader().setFont(jTable1.getTableHeader().getFont().deriveFont(Font.BOLD, 16));
         Font font = new Font("Verdana", Font.PLAIN, 14);
         jTable1.setFont(font);
@@ -88,13 +93,20 @@ public class SupplierManagement extends javax.swing.JDialog {
         loadSupplier();
     }
 
-//    public SupplierManagement(, boolean modal) {
-//
-//        this.grnp = parent;
-//        initComponents();
-//        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
-//        loadSupplier();
-//    }
+    public SupplierManagement(java.awt.Frame parent, boolean modal, GRNPanel panel) {
+        super(parent, modal);
+        initComponents();
+        this.grnp = panel;
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
+        jTable1.getTableHeader().setFont(jTable1.getTableHeader().getFont().deriveFont(Font.BOLD, 16));
+        Font font = new Font("Verdana", Font.PLAIN, 14);
+        jTable1.setFont(font);
+        jTable1.setRowHeight(30);
+        jTable1.setBackground(Color.decode("#b3ecff"));
+        loadSupplier();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,6 +280,11 @@ public class SupplierManagement extends javax.swing.JDialog {
         jLabel5.setText("Search :");
 
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -331,7 +348,7 @@ public class SupplierManagement extends javax.swing.JDialog {
         String name = jTextField1.getText();
         String contact = jTextField2.getText();
         String email = jTextField3.getText();
-        String conpany = jTextField4.getText();
+        String company = jTextField4.getText();
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please ether supplier name", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (contact.isEmpty()) {
@@ -340,12 +357,19 @@ public class SupplierManagement extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Invalid contact number", "warning", JOptionPane.WARNING_MESSAGE);
         } else {
             if (jButton1.getText().equalsIgnoreCase("save supplier")) {
-                MySQL.iud("INSERT INTO `supplier`(`name`,`contact`,`email`,`company_name`) VALUES('" + name + "','" + contact + "','" + email + "','" + conpany + "')");
+                MySQL.iud("INSERT INTO `supplier`(`name`,`contact`,`email`,`company_name`) VALUES('" + name + "','" + contact + "','" + email + "','" + company + "')");
                 clearField();
                 loadSupplier();
                 JOptionPane.showMessageDialog(this, "Successfully Registered", "success", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                
+                if (sid == null) {
+                    JOptionPane.showMessageDialog(this, "Please select supplier again to catch him again", "warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL.iud("UPDATE `supplier` SET `name`='" + name + "',`contact`='" + contact + "',`email`='" + email + "',`company_name`='" + company + "' WHERE `id`='" + sid + "'");
+                    clearField();
+                    loadSupplier();
+                    JOptionPane.showMessageDialog(this, "Successfully Update", "success", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -363,7 +387,7 @@ public class SupplierManagement extends javax.swing.JDialog {
         // TODO add your handling code here:
         if (!Pattern.compile("[0-9]+").matcher(((Object) evt.getKeyChar()).toString()).matches()) {
             evt.consume();
-            
+
         }
     }//GEN-LAST:event_jTextField2KeyTyped
 
@@ -382,11 +406,12 @@ public class SupplierManagement extends javax.swing.JDialog {
             jTextField3.setText(email);
             jTextField4.setText(company);
             jButton1.setText("Update Supplier");
-            
+
         } else if (evt.getClickCount() == 2) {
             sid = null;
             clearField();
             grnp.jButton1.setText(name);
+            grnp.jButton1.setEnabled(false);
             grnp.jLabel4.setText(contact);
             this.dispose();
         }
@@ -399,6 +424,18 @@ public class SupplierManagement extends javax.swing.JDialog {
             jTextField2.setEnabled(true);
         }
     }//GEN-LAST:event_jTextField2MouseClicked
+
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        // TODO add your handling code here:
+        String text = jTextField5.getText();
+        loadSupplier(text);
+        
+        if (evt.getKeyCode() == 8) {
+            if (text.length() == 0) {
+                loadSupplier();
+            }
+        }
+    }//GEN-LAST:event_jTextField5KeyReleased
 
     /**
      * @param args the command line arguments
@@ -414,16 +451,24 @@ public class SupplierManagement extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SupplierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupplierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SupplierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupplierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SupplierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupplierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SupplierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupplierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         /* Create and display the dialog */
