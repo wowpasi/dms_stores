@@ -273,7 +273,7 @@
                     <Column editable="false" title="Name" type="java.lang.Object"/>
                     <Column editable="false" title="Contact No." type="java.lang.Object"/>
                     <Column editable="false" title="Email " type="java.lang.Object"/>
-                    <Column editable="true" title="Company" type="java.lang.Object"/>
+                    <Column editable="false" title="Company" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -298,7 +298,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
