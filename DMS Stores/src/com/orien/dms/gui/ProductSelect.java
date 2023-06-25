@@ -13,11 +13,15 @@ public class ProductSelect extends javax.swing.JDialog {
     /**
      * Creates new form SupplierManagement
      */
+GRNPanel grnp;
     public ProductSelect(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-
+    public ProductSelect(GRNPanel parent, boolean modal) {
+        this.grnp=parent;
+        initComponents();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
