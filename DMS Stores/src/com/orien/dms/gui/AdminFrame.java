@@ -1,4 +1,3 @@
-
 package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
@@ -290,7 +289,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jLabel1.setText("Manage Products");
 
-        ProductManagePanel productManagePanel = new ProductManagePanel(this.jPanel3);
+        ProductManagePanel productManagePanel = new ProductManagePanel(this);
         this.jPanel3.removeAll();
         this.jPanel3.add(productManagePanel);
         this.jPanel3.revalidate();

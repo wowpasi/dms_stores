@@ -16,10 +16,10 @@ import javax.swing.table.DefaultTableModel;
  * @author wijay
  */
 public class ManageBrand extends javax.swing.JFrame {
-
+    
     ProductManagePanel panel;
     String bid;
-
+    
     public void loadBrand() {
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `brand` INNER JOIN `status` ON brand.status_id=status.id ORDER BY status.name ,`brand`.`id` ASC ");
@@ -32,12 +32,12 @@ public class ManageBrand extends javax.swing.JFrame {
                 v.add(rs.getString("status.name"));
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public void loadBrand(String text) {
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `brand` INNER JOIN `status` ON brand.status_id=status.id WHERE brand.name LIKE '" + text + "%' OR status.name LIKE '" + text + "%'");
@@ -50,22 +50,22 @@ public class ManageBrand extends javax.swing.JFrame {
                 v.add(rs.getString("status.name"));
                 dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public void clearField() {
         jTextField1.setText("");
         jButton1.setText("Add Brand");
     }
-
+    
     public ManageBrand() {
         initComponents();
         loadBrand();
     }
-
+    
     public ManageBrand(ProductManagePanel panel) {
         this.panel = panel;
         initComponents();
@@ -318,7 +318,7 @@ public class ManageBrand extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
-
+        
         String id = jTable1.getValueAt(selectedRow, 2).toString();
         bid = jTable1.getValueAt(selectedRow, 0).toString();
         String name = jTable1.getValueAt(selectedRow, 1).toString();
@@ -335,6 +335,7 @@ public class ManageBrand extends javax.swing.JFrame {
             if (id.equalsIgnoreCase("active")) {
                 panel.jLabel6.setText(bid);
                 panel.jLabel11.setText(name);
+                panel.frame.setEnabled(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Brand is already deactivated, Please use active brand", "warning", JOptionPane.WARNING_MESSAGE);
