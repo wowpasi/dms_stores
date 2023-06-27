@@ -359,7 +359,7 @@ public class GRNPanel extends javax.swing.JPanel {
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
-//        System.out.println(evt.getKeyChar());
+        
  
     }//GEN-LAST:event_jTextField1KeyTyped
 
