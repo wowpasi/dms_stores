@@ -4,11 +4,13 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.DateTime;
 import com.orien.dms.model.MySQL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.regex.Pattern;
@@ -21,13 +23,14 @@ import javax.swing.table.DefaultTableModel;
  * @author wijay
  */
 public class GRNPanel extends javax.swing.JPanel {
-
+    SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     Double finalTotal = 0.00;
     int supplier_id = 0;
     AdminFrame frame;
     boolean isFound = false;
-
+    int selectedRow = 0;
+    
     public void loadTotal() {
         finalTotal = 0.00;
         for (int i = 0; i < jTable1.getRowCount(); i++) {
@@ -37,6 +40,14 @@ public class GRNPanel extends javax.swing.JPanel {
         jLabel16.setText(decimalFormat.format((Object) finalTotal));
     }
 
+    public void resetPanel() {
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        dtm.setRowCount(0);
+        jLabel16.setText("0.00");
+        jButton1.setText("Select Suppier");
+        jButton1.setEnabled(true);
+    }
+    
     public void clearField() {
         jTextField1.setText("");
         jTextField2.setText("");
@@ -50,30 +61,30 @@ public class GRNPanel extends javax.swing.JPanel {
         jDateChooser2.setDate(null);
         isFound = false;
         jButton3.setText("Add to GRN");
-
+        
     }
-
+    
     public void setData() {
         int selectedRow = jTable1.getSelectedRow();
-
+        
         String code = jTable1.getValueAt(selectedRow, 0).toString();
         Date mfd = (Date) jTable1.getValueAt(selectedRow, 2);
         Date exd = (Date) jTable1.getValueAt(selectedRow, 3);
         String sellingPrice = jTable1.getValueAt(selectedRow, 4).toString();
         String qty = jTable1.getValueAt(selectedRow, 5).toString();
         String buyingPrice = jTable1.getValueAt(selectedRow, 6).toString();
-
+        
         Integer rightQty;
-
+        
         jTextField1.setText(code);
         loadData();
-
+        
         if (jLabel8.getText().equalsIgnoreCase("weight(kg) :")) {
             rightQty = Integer.parseInt(qty) / 1000;
         } else {
             rightQty = Integer.parseInt(qty);
         }
-
+        
         jTextField2.setText(String.valueOf(rightQty));
         jTextField3.setText(buyingPrice);
         jTextField4.setText(sellingPrice);
@@ -81,26 +92,23 @@ public class GRNPanel extends javax.swing.JPanel {
         jDateChooser2.setDate(exd);
         jButton3.setText("Update Table");
     }
-
+    
     public void setData(int row) {
-
-//        String code = jTable1.getValueAt(row, 0).toString();
+        
         Date mfd = (Date) jTable1.getValueAt(row, 2);
         Date exd = (Date) jTable1.getValueAt(row, 3);
         String sellingPrice = jTable1.getValueAt(row, 4).toString();
         String qty = jTable1.getValueAt(row, 5).toString();
         String buyingPrice = jTable1.getValueAt(row, 6).toString();
-
+        
         Integer rightQty;
-
-//        jTextField1.setText(code);
-//        loadData();
+        
         if (jLabel8.getText().equalsIgnoreCase("weight(kg) :")) {
             rightQty = Integer.parseInt(qty) / 1000;
         } else {
             rightQty = Integer.parseInt(qty);
         }
-
+        
         jTextField2.setText(String.valueOf(rightQty));
         jTextField3.setText(buyingPrice);
         jTextField4.setText(sellingPrice);
@@ -108,17 +116,17 @@ public class GRNPanel extends javax.swing.JPanel {
         jDateChooser2.setDate(exd);
         jButton3.setText("Update Table");
     }
-
+    
     public void loadData() {
-
+        
         String text = jTextField1.getText();
-
+        
         try {
             ResultSet rs = MySQL.search("SELECT * FROM `product` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` WHERE `product`.`bar_code`='" + text + "'");
             if (rs.next()) {
-                int selectedRow = 0;
+//                int selectedRow = 0;
                 boolean isFound1 = false;
-
+                
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
                     String Code = jTable1.getValueAt(i, 0).toString();
                     if (text.equals(Code)) {
@@ -126,11 +134,11 @@ public class GRNPanel extends javax.swing.JPanel {
                         selectedRow = i;
                     }
                 }
-
+                
                 if (isFound1) {
                     setData(selectedRow);
                 }
-
+                
                 jLabel13.setText(rs.getString("product.name"));
                 jLabel14.setText(rs.getString("brand.name"));
                 jLabel18.setText(rs.getString("category.name"));
@@ -139,7 +147,7 @@ public class GRNPanel extends javax.swing.JPanel {
                 } else {
                     jLabel8.setText("Quantity :");
                 }
-
+                
             } else {
                 jLabel13.setText("None");
                 jLabel14.setText("None");
@@ -150,7 +158,7 @@ public class GRNPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    
     public GRNPanel(AdminFrame frame) {
         initComponents();
         this.frame = frame;
@@ -448,7 +456,7 @@ public class GRNPanel extends javax.swing.JPanel {
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 153, 0));
-        jLabel16.setText("None");
+        jLabel16.setText("0.00");
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jButton4.setText("Print Invoice");
@@ -521,7 +529,7 @@ public class GRNPanel extends javax.swing.JPanel {
                 jButton1.setEnabled(true);
                 jLabel4.setText("None");
             }
-
+            
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -557,7 +565,7 @@ public class GRNPanel extends javax.swing.JPanel {
         String sellingPrice = jTextField4.getText();
         Date mfd = jDateChooser1.getDate();
         Date exd = jDateChooser2.getDate();
-
+        
         if (supplier_id == 0) {
             JOptionPane.showConfirmDialog(this, "Please select the supplier", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (code.isEmpty()) {
@@ -566,7 +574,7 @@ public class GRNPanel extends javax.swing.JPanel {
             JOptionPane.showConfirmDialog(this, "Your barcode not in a system currently please update it", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (qty.isEmpty()) {
             JOptionPane.showConfirmDialog(this, "Please set the weight or quantity", "warning", JOptionPane.WARNING_MESSAGE);
-
+            
         } else if (!Pattern.compile("[1-9][0-9]*").matcher(qty).matches()) {
             JOptionPane.showMessageDialog(this, "Invalid quantity", "Waring", JOptionPane.WARNING_MESSAGE);
         } else if (!Pattern.compile("([1-9][0-9]*)|(([1-9][0-9]*)[.]([0]*[1-9][0-9]*))|([0][.]([0]*[1-9][0-9]*))").matcher(buyingPrice).matches()) {
@@ -589,64 +597,101 @@ public class GRNPanel extends javax.swing.JPanel {
         } else if (exd.before(new Date())) {
             JOptionPane.showMessageDialog(this, "Invalid EXD", "Waring", JOptionPane.WARNING_MESSAGE);
         } else {
-
-            if (jButton3.getText().equalsIgnoreCase("add to grn")) {
-                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-
-                Integer weight;
-                Double total = 0.00;
-
-                if (checker.equalsIgnoreCase("weight(kg) :")) {
-                    weight = Integer.parseInt(qty) * 1000;
-
-                } else {
-                    weight = Integer.parseInt(qty);
-
-                }
-
-                total = Double.parseDouble(buyingPrice) * Integer.parseInt(qty);
-
-                int rowCount = jTable1.getRowCount();
-                if (rowCount > 0) {
-
-                    for (int i = 0; i < rowCount; i++) {
-                        String Code = jTable1.getValueAt(i, 0).toString();
-                        if (code.equals(Code)) {
-                            isFound = true;
-                        }
-                    }
-
-                }
-
-                if (isFound) {
-                    setData();
-                } else {
-
-                    Vector v = new Vector();
-                    v.add(code);
-                    v.add(product);
-                    v.add(mfd);
-                    v.add(exd);
-                    v.add(sellingPrice);
-                    v.add(weight);
-                    v.add(buyingPrice);
-                    v.add(decimalFormat.format(total));
-                    dtm.addRow(v);
-                    loadTotal();
-                    clearField();
-                    JOptionPane.showMessageDialog(this, "Added to GRN", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }
-
+            
+            Integer weight;
+            Double total = 0.00;
+            
+            if (checker.equalsIgnoreCase("weight(kg) :")) {
+                weight = Integer.parseInt(qty) * 1000;
+                
+            } else {
+                weight = Integer.parseInt(qty);
+                
             }
-
+            
+            total = Double.parseDouble(buyingPrice) * Integer.parseInt(qty);
+            if (jButton3.getText().equalsIgnoreCase("add to grn")) {
+                
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+                
+                Vector v = new Vector();
+                v.add(code);
+                v.add(product);
+                v.add(mfd);
+                v.add(exd);
+                v.add(sellingPrice);
+                v.add(weight);
+                v.add(buyingPrice);
+                v.add(decimalFormat.format(total));
+                dtm.addRow(v);
+                loadTotal();
+                clearField();
+                JOptionPane.showMessageDialog(this, "Added to GRN", "Success", JOptionPane.INFORMATION_MESSAGE);
+                
+            } else {
+                jTable1.setValueAt(product, selectedRow, 1);
+                jTable1.setValueAt(mfd, selectedRow, 2);
+                jTable1.setValueAt(exd, selectedRow, 3);
+                jTable1.setValueAt(sellingPrice, selectedRow, 4);
+                jTable1.setValueAt(weight, selectedRow, 5);
+                jTable1.setValueAt(buyingPrice, selectedRow, 6);
+                jTable1.setValueAt(decimalFormat.format(total), selectedRow, 7);
+                clearField();
+                JOptionPane.showMessageDialog(this, "Updated table", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
         }
-
+        
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-
+        int rowCount = jTable1.getRowCount();
+        if (rowCount > 0) {
+            try {
+                MySQL.iud("INSERT INTO `grn`(`date`,`time`,`total`,`bill_status_id`,`user_nic`,`supplier_id`) VALUES('" + DateTime.getDate() + "','" + DateTime.getTime() + "','" + finalTotal + "','1','" + frame.adminNIC + "','" + supplier_id + "')");
+                ResultSet rs0 = MySQL.search("SELECT LAST_INSERT_ID()");
+                rs0.next();
+              int grn_id = rs0.getInt(1);
+                rs0.close();
+                
+                System.out.println("grn ok");
+                System.out.println(grn_id);
+                
+                for (int i = 0; i < rowCount; i++) {
+                    String code = jTable1.getValueAt(i, 0).toString();
+                    Date mfd = (Date) jTable1.getValueAt(i, 2);
+                    Date exd = (Date) jTable1.getValueAt(i, 3);
+                    String sellingPrice = jTable1.getValueAt(i, 4).toString();
+                    String qty = jTable1.getValueAt(i, 5).toString();
+                    String buyingPrice = jTable1.getValueAt(i, 6).toString();
+                    String balance = jTable1.getValueAt(i, 7).toString();
+                    
+                    ResultSet rs = MySQL.search("SELECT * FROM `product` WHERE `bar_code`='" + code + "'");
+                    rs.next();
+                    String product_id = rs.getString("id");
+                    
+                    MySQL.iud("INSERT INTO `stock`(`qty`,`selling_price`,`buying_price`,`exd`,`mfd`,`product_id`) VALUES('" + qty + "','" + sellingPrice + "','" + buyingPrice + "','" + sfd.format(exd) + "','" + sfd.format(mfd) + "','" + product_id + "')");
+                    
+                    ResultSet rs1 = MySQL.search("SELECT LAST_INSERT_ID()");
+                    rs1.next();
+                    String stock_id = rs1.getString(1);
+                    rs1.close();
+                    
+                    System.out.println("stock ok");
+                    System.out.println(stock_id);
+                    
+                    MySQL.iud("INSERT INTO `grn_item`(`qty`,`balance`,`grn_id`,`stock_id`) VALUES('" + qty + "','" + balance + "','" + grn_id + "','" + stock_id + "')");
+                    
+                    resetPanel();
+                    JOptionPane.showMessageDialog(this, "GRN Sent to billing cashier. Thank you", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -660,9 +705,9 @@ public class GRNPanel extends javax.swing.JPanel {
             int selectedRow = jTable1.getSelectedRow();
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.removeRow(selectedRow);
-
+            loadTotal();
             JOptionPane.showMessageDialog(this, "Deleted row", "success", JOptionPane.WARNING_MESSAGE);
-
+            
         }
 
     }//GEN-LAST:event_jTable1MouseClicked

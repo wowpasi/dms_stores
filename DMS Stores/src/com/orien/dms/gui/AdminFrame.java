@@ -13,9 +13,14 @@ public class AdminFrame extends javax.swing.JFrame {
     /**
      * Creates new form AdminDashboard
      */
-    public AdminFrame() {
+    String adminNIC;
+    
+     public AdminFrame() {
         initComponents();
-
+     }
+    public AdminFrame(String nic) {
+        initComponents();
+        this.adminNIC = nic;
         jLabel1.setText("Dashboard");
 
         AdminDashboard adminDashboard = new AdminDashboard(this.jPanel3);

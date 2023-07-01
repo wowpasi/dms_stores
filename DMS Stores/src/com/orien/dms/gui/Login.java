@@ -171,22 +171,24 @@ public class Login extends javax.swing.JFrame {
 
             try {
 
-                ResultSet rs = MySQL.search("SELECT * FROM user WHERE user.user_name='" + username + "' AND user.password='" + password + "'");
+                ResultSet rs = MySQL.search("SELECT * FROM user INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` WHERE user.user_name='" + username + "' AND user.password='" + password + "' AND `user_type`.`name`='"+userType+"'");
                 if (rs.next()) {
                     String id = rs.getString("user_status_id");
+                    String nic=rs.getString("nic");
+                    String user_type=rs.getString("user_type.name");
                     
-                    if (userType.equalsIgnoreCase("superadmin")) {
+                    if (user_type.equalsIgnoreCase("superadmin")) {
 
                         SuperAdminFrame frame = new SuperAdminFrame();
                         frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                         frame.setVisible(true);
 
                     }
-                    if (userType.equalsIgnoreCase("admin")) {
+                    if (user_type.equalsIgnoreCase("admin")) {
 
                         if (id.equals("1")) {
 
-                            AdminFrame frame = new AdminFrame();
+                            AdminFrame frame = new AdminFrame(nic);
                             frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                             frame.setVisible(true);
 
@@ -194,7 +196,7 @@ public class Login extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the head of your organization");
                         }
                     }
-                    if (userType.equalsIgnoreCase("billingcashier")) {
+                    if (user_type.equalsIgnoreCase("billingcashier")) {
 
                         if (id.equals("1")) {
 
@@ -207,7 +209,7 @@ public class Login extends javax.swing.JFrame {
                         }
 
                     }
-                    if (userType.equalsIgnoreCase("cashier")) {
+                    if (user_type.equalsIgnoreCase("cashier")) {
 
                         if (id.equals("1")) {
 
@@ -219,6 +221,7 @@ public class Login extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "You are currentlly Inactive please meet the Administrator of your organization");
                         }
                     }
+                    this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid Username or Password ", "warning", JOptionPane.WARNING_MESSAGE);
                 }
