@@ -413,6 +413,7 @@ public class SupplierManagement extends javax.swing.JDialog {
             grnp.jButton1.setText(name);
             grnp.jButton1.setEnabled(false);
             grnp.jLabel4.setText(contact);
+            grnp.supplier_id=Integer.parseInt(id);
             this.dispose();
         }
     }//GEN-LAST:event_jTable1MouseClicked
