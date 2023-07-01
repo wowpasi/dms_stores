@@ -590,50 +590,53 @@ public class GRNPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Invalid EXD", "Waring", JOptionPane.WARNING_MESSAGE);
         } else {
 
-            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            if (jButton3.getText().equalsIgnoreCase("add to grn")) {
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
-            Integer weight;
-            Double total = 0.00;
+                Integer weight;
+                Double total = 0.00;
 
-            if (checker.equalsIgnoreCase("weight(kg) :")) {
-                weight = Integer.parseInt(qty) * 1000;
+                if (checker.equalsIgnoreCase("weight(kg) :")) {
+                    weight = Integer.parseInt(qty) * 1000;
 
-            } else {
-                weight = Integer.parseInt(qty);
+                } else {
+                    weight = Integer.parseInt(qty);
 
-            }
-
-            total = Double.parseDouble(buyingPrice) * Integer.parseInt(qty);
-
-            int rowCount = jTable1.getRowCount();
-            if (rowCount > 0) {
-
-                for (int i = 0; i < rowCount; i++) {
-                    String Code = jTable1.getValueAt(i, 0).toString();
-                    if (code.equals(Code)) {
-                        isFound = true;
-                    }
                 }
 
-            }
+                total = Double.parseDouble(buyingPrice) * Integer.parseInt(qty);
 
-            if (isFound) {
-                setData();
-            } else {
+                int rowCount = jTable1.getRowCount();
+                if (rowCount > 0) {
 
-                Vector v = new Vector();
-                v.add(code);
-                v.add(product);
-                v.add(mfd);
-                v.add(exd);
-                v.add(sellingPrice);
-                v.add(weight);
-                v.add(buyingPrice);
-                v.add(decimalFormat.format(total));
-                dtm.addRow(v);
-                loadTotal();
-                clearField();
-                JOptionPane.showMessageDialog(this, "Added to GRN", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    for (int i = 0; i < rowCount; i++) {
+                        String Code = jTable1.getValueAt(i, 0).toString();
+                        if (code.equals(Code)) {
+                            isFound = true;
+                        }
+                    }
+
+                }
+
+                if (isFound) {
+                    setData();
+                } else {
+
+                    Vector v = new Vector();
+                    v.add(code);
+                    v.add(product);
+                    v.add(mfd);
+                    v.add(exd);
+                    v.add(sellingPrice);
+                    v.add(weight);
+                    v.add(buyingPrice);
+                    v.add(decimalFormat.format(total));
+                    dtm.addRow(v);
+                    loadTotal();
+                    clearField();
+                    JOptionPane.showMessageDialog(this, "Added to GRN", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             }
 
         }
