@@ -438,10 +438,28 @@ public class ProductManagePanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please select brand", "warning", JOptionPane.WARNING_MESSAGE);
         } else {
             if (jButton3.getText().equalsIgnoreCase("save product")) {
-                MySQL.iud("INSERT INTO `product`(`name`,`bar_code`,`category_id`,`brand_id`,`status_id`) VALUES('" + name + "','" + code + "','" + Integer.parseInt(cid) + "','" + Integer.parseInt(bid) + "','1')");
-                loadProduct();
-                clearField();
-                JOptionPane.showMessageDialog(this, "Successfully registered", "success", JOptionPane.INFORMATION_MESSAGE);
+                try {
+
+                    boolean isFound = false;
+
+                    ResultSet rs = MySQL.search("SELECT * FROM `product` WHERE `bar_code`='" + code + "'");
+
+                    if (rs.next()) {
+                        isFound = true;
+                    }
+
+                    if (isFound) {
+                        clearField();
+                        JOptionPane.showMessageDialog(this, "This barcode already registered", "warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        MySQL.iud("INSERT INTO `product`(`name`,`bar_code`,`category_id`,`brand_id`,`status_id`) VALUES('" + name + "','" + code + "','" + Integer.parseInt(cid) + "','" + Integer.parseInt(bid) + "','1')");
+                        loadProduct();
+                        clearField();
+                        JOptionPane.showMessageDialog(this, "Successfully registered", "success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {
 
                 if (jButton5.getText().equalsIgnoreCase("active")) {

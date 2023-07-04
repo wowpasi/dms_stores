@@ -81,6 +81,11 @@ public class AdminFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButton1KeyReleased(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("STLiti", 1, 20)); // NOI18N
         jButton2.setText("GRN");
@@ -327,6 +332,11 @@ public class AdminFrame extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyReleased
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1KeyReleased
 
     /**
      * @param args the command line arguments

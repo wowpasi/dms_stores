@@ -4,27 +4,79 @@
  */
 package com.orien.dms.gui;
 
-
+import com.orien.dms.model.MySQL;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Asus
  */
 public class AdminDashboard extends javax.swing.JPanel {
+    
     JPanel jPanel;
-    /**
-     * Creates new form SuperAdminDashboardPanel
-     */
+    
+    public void loadTable() {
+        try {
+            ResultSet rs = MySQL.search("SELECT * FROM `product`");
+            ResultSet rs1 = MySQL.search("SELECT * FROM `stock` WHERE `status_id`='1' AND `qty`>'0'");
+            ArrayList<Integer> list1 = new ArrayList<>();
+            ArrayList<Integer> list2 = new ArrayList<>();
+            
+            while (rs.next()) {
+                list1.add(Integer.parseInt(rs.getString("id")));
+            }
+            while (rs1.next()) {
+                list2.add(Integer.parseInt(rs1.getString("product_id")));
+            }
+            
+            ArrayList<Integer> commonElements = new ArrayList<>();
+            ArrayList<Integer> differentElements = new ArrayList<>();
+            
+            for (Integer element : list1) {
+                if (list2.contains(element)) {
+                    commonElements.add(element);
+                } else {
+                    differentElements.add(element);
+                }
+            }
+            
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            
+            if (differentElements.size() > 0) {
+                for (Integer element : differentElements) {
+                    
+                    ResultSet rs2 = MySQL.search("SELECT * FROM `product` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` WHERE `product`.`id`='" + element + "'");
+                    rs2.next();
+                    Vector v = new Vector();
+                    v.add(rs2.getString("product.bar_code"));
+                    v.add(rs2.getString("product.name"));
+                    v.add(rs2.getString("brand.name"));
+                    v.add(rs2.getString("category.name"));
+                    dtm.addRow(v);
+                    
+                }
+                
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public AdminDashboard(JPanel jPanel) {
         initComponents();
-        this.jPanel=jPanel;
+        this.jPanel = jPanel;
         setSize(jPanel.getSize());
         revalidate();
-       
+        loadTable();
+        
     }
 
     /**
