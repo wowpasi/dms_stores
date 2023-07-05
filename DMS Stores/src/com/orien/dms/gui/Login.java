@@ -179,7 +179,7 @@ public class Login extends javax.swing.JFrame {
                     
                     if (user_type.equalsIgnoreCase("superadmin")) {
 
-                        SuperAdminFrame frame = new SuperAdminFrame();
+                        SuperAdminFrame frame = new SuperAdminFrame(nic);
                         frame.setExtendedState(frame.getExtendedState() | frame.MAXIMIZED_BOTH);
                         frame.setVisible(true);
 

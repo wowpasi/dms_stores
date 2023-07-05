@@ -2,7 +2,10 @@ package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 /**
  *
@@ -10,17 +13,9 @@ import javax.swing.ImageIcon;
  */
 public class AdminFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminDashboard
-     */
     String adminNIC;
-    
-     public AdminFrame() {
-        initComponents();
-     }
-    public AdminFrame(String nic) {
-        initComponents();
-        this.adminNIC = nic;
+
+    public void loadPanel() {
         jLabel1.setText("Dashboard");
 
         AdminDashboard adminDashboard = new AdminDashboard(this.jPanel3);
@@ -28,8 +23,16 @@ public class AdminFrame extends javax.swing.JFrame {
         this.jPanel3.add(adminDashboard);
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
+    }
 
-//        setIconImage(new ImageIcon("src/com/orien/dms/img/logo.png").getImage());
+    public AdminFrame() {
+        initComponents();
+    }
+
+    public AdminFrame(String nic) {
+        initComponents();
+        this.adminNIC = nic;
+
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
@@ -39,6 +42,20 @@ public class AdminFrame extends javax.swing.JFrame {
 
         setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
 
+        int delay = 100; // Delay in milliseconds
+
+        ActionListener task = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadPanel();
+            }
+        };
+
+        Timer timer = new Timer(delay, task);
+        timer.setRepeats(false); // Set to true if you want the timer to repeat
+
+        // Start the timer
+        timer.start();
     }
 
     /**
@@ -69,7 +86,7 @@ public class AdminFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel3.setOpaque(false);
+        jPanel3.setPreferredSize(new java.awt.Dimension(0, 551));
         jPanel3.setLayout(new java.awt.CardLayout());
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
@@ -287,13 +304,7 @@ public class AdminFrame extends javax.swing.JFrame {
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jLabel1.setText("Dashboard");
-
-        AdminDashboard adminDashboard = new AdminDashboard(this.jPanel3);
-        this.jPanel3.removeAll();
-        this.jPanel3.add(adminDashboard);
-        this.jPanel3.revalidate();
-        this.jPanel3.repaint();
+        loadPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -335,7 +346,7 @@ public class AdminFrame extends javax.swing.JFrame {
 
     private void jButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton1KeyReleased
 
     /**

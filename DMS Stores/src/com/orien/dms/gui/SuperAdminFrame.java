@@ -1,16 +1,16 @@
 package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
-
+import javax.swing.Timer;
 
 public class SuperAdminFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SuperAdminDashboard
-     */
     public void loadPanel() {
-        jLabel1.setText("Dashboard(SuperAdmin)");
+        jLabel1.setText("Dashboard");
+
         this.jPanel3.removeAll();
         this.jPanel3.add(new SuperAdminDashboardPanel(this.jPanel3));
         this.jPanel3.revalidate();
@@ -19,15 +19,35 @@ public class SuperAdminFrame extends javax.swing.JFrame {
 
     public SuperAdminFrame() {
         initComponents();
-                setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
-        
+    }
+
+    public SuperAdminFrame(String nic) {
+        initComponents();
+
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
- 
+
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
+        int delay = 100; // Delay in milliseconds
+
+        ActionListener task = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadPanel();
+            }
+        };
+
+        Timer timer = new Timer(delay, task);
+        timer.setRepeats(false); // Set to true if you want the timer to repeat
+
+        // Start the timer
+        timer.start();
+
     }
 
     /**
@@ -94,6 +114,11 @@ public class SuperAdminFrame extends javax.swing.JFrame {
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -252,12 +277,12 @@ public class SuperAdminFrame extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
 
-        loadPanel();
 
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        loadPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
@@ -267,22 +292,10 @@ public class SuperAdminFrame extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
 
-        jLabel1.setText("Admin Management");
-        this.jPanel3.removeAll();
-        this.jPanel3.add(new SuperAdminManagementPlanel(this.jPanel3));
-        this.jPanel3.revalidate();
-        this.jPanel3.repaint();
-
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
-
-        jLabel1.setText("Reports(SuperAdmin)");
-        this.jPanel3.removeAll();
-        this.jPanel3.add(new SuperAdminReportPanel(this.jPanel3));
-        this.jPanel3.revalidate();
-        this.jPanel3.repaint();
 
 
     }//GEN-LAST:event_jButton3MouseClicked
@@ -292,7 +305,7 @@ public class SuperAdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-          jLabel1.setText("Stock");
+        jLabel1.setText("Stock");
         this.jPanel3.removeAll();
         this.jPanel3.add(new AdminStockPanel(this.jPanel3));
         this.jPanel3.revalidate();
@@ -312,6 +325,15 @@ public class SuperAdminFrame extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jLabel1.setText("Reports");
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new SuperAdminReportPanel(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,10 +369,7 @@ public class SuperAdminFrame extends javax.swing.JFrame {
                 SuperAdminFrame superAdminDashboard = new SuperAdminFrame();
 //                superAdminDashboard.setSize(1920, 1080);
                 superAdminDashboard.setExtendedState(superAdminDashboard.getExtendedState() | superAdminDashboard.MAXIMIZED_BOTH);
-//                 superAdminDashboard.loadDashboard();
-
                 superAdminDashboard.setVisible(true);
-                superAdminDashboard.loadPanel();
             }
         });
     }

@@ -5,11 +5,14 @@
 package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,22 +20,39 @@ import javax.swing.JLabel;
  */
 public class BillingCashierFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CashierPanel
-     */
+    public void loadPanel() {
+        jLabel1.setText("Dashboard");
+
+        this.jPanel3.removeAll();
+        this.jPanel3.add(new BillingCashierDashboard(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
+    }
 
     public BillingCashierFrame() {
         initComponents();
-                     setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
- 
-        
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
-           jLabel1.setText("Dashboard");
+        int delay = 100; // Delay in milliseconds
+
+        ActionListener task = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadPanel();
+            }
+        };
+
+        Timer timer = new Timer(delay, task);
+        timer.setRepeats(false); // Set to true if you want the timer to repeat
+
+        // Start the timer
+        timer.start();
     }
 
     /**
@@ -252,13 +272,8 @@ public class BillingCashierFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            jLabel1.setText("Dashboard");
+        loadPanel();
 
-        this.jPanel3.removeAll();
-        this.jPanel3.add(new BillingCashierDashboard(this.jPanel3));
-        this.jPanel3.revalidate();
-        this.jPanel3.repaint();
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
@@ -299,7 +314,7 @@ public class BillingCashierFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-          jLabel1.setText("Ongoing GRN's ");
+        jLabel1.setText("Ongoing GRN's ");
         this.jPanel3.removeAll();
         this.jPanel3.add(new BillingCashierOngoingGRN(this.jPanel3));
         this.jPanel3.revalidate();

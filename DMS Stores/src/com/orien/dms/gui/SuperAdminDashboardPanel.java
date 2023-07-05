@@ -4,7 +4,6 @@
  */
 package com.orien.dms.gui;
 
-
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,16 +14,19 @@ import javax.swing.SwingUtilities;
  * @author Asus
  */
 public class SuperAdminDashboardPanel extends javax.swing.JPanel {
-    JPanel jPanel;
+
+    JPanel panel;
+
     /**
      * Creates new form SuperAdminDashboardPanel
      */
     public SuperAdminDashboardPanel(JPanel jPanel) {
         initComponents();
-        this.jPanel=jPanel;
-        setSize(jPanel.getSize());
+        this.panel = jPanel;
+        setSize(panel.getSize());
         revalidate();
-       
+        repaint();
+
     }
 
     /**
@@ -232,7 +234,7 @@ public class SuperAdminDashboardPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(102, 102, 102)
+                .addGap(267, 267, 267)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -241,7 +243,7 @@ public class SuperAdminDashboardPanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(213, 213, 213)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

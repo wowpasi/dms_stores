@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdminDashboard extends javax.swing.JPanel {
     
-    JPanel jPanel;
+    JPanel panel;
     
     public void loadTable() {
         try {
@@ -72,9 +72,10 @@ public class AdminDashboard extends javax.swing.JPanel {
     
     public AdminDashboard(JPanel jPanel) {
         initComponents();
-        this.jPanel = jPanel;
-        setSize(jPanel.getSize());
+        this.panel = jPanel;
+        setSize(panel.getSize());
         revalidate();
+        repaint();
         loadTable();
         
     }

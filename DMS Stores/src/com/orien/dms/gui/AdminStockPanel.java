@@ -405,17 +405,20 @@ public class AdminStockPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
         if (evt.getClickCount() == 1) {
-            int qty = Integer.parseInt(jTable1.getValueAt(selectedRow, 3).toString());
-            jTextField2.setText(jTable1.getValueAt(selectedRow, 4).toString());
-            if (jLabel6.getText().equalsIgnoreCase("weight(kg) :")) {
-
-                jTextField1.setText(String.valueOf(qty / 1000));
+            if (jTextField4.getText().isEmpty()) {
+                 JOptionPane.showMessageDialog(this, "Please give the bar code of the product", "warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                jTextField1.setText(String.valueOf(qty));
-            }
-            stockId = jTable1.getValueAt(selectedRow, 0).toString();
-        }
+                int qty = Integer.parseInt(jTable1.getValueAt(selectedRow, 3).toString());
+                jTextField2.setText(jTable1.getValueAt(selectedRow, 4).toString());
+                if (jLabel6.getText().equalsIgnoreCase("weight(kg) :")) {
 
+                    jTextField1.setText(String.valueOf(qty / 1000));
+                } else {
+                    jTextField1.setText(String.valueOf(qty));
+                }
+                stockId = jTable1.getValueAt(selectedRow, 0).toString();
+            }
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped

@@ -475,7 +475,7 @@ public class GRNPanel extends javax.swing.JPanel {
         jLabel16.setText("0.00");
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jButton4.setText("Print Invoice");
+        jButton4.setText("GRN Invoice");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);

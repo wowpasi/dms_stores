@@ -5,11 +5,14 @@
 package com.orien.dms.gui;
 
 import com.orien.dms.model.DateTime;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,12 +20,8 @@ import javax.swing.JLabel;
  */
 public class CashierFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CashierPanel
-     */
-    public  void loadDashboard() {
+    public void loadPanel() {
         jLabel1.setText("Dashboard");
-
         this.jPanel3.removeAll();
         this.jPanel3.add(new CashierDashboard(this.jPanel3));
         this.jPanel3.revalidate();
@@ -31,14 +30,30 @@ public class CashierFrame extends javax.swing.JFrame {
 
     public CashierFrame() {
         initComponents();
-                setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
-        
+        setIconImage(new ImageIcon("src/com/orien/dms/img/orien_logo.png").getImage());
+
         new Thread(() -> {
             while (true) {
                 jLabel2.setText(DateTime.getTime());
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
+        
+
+        int delay = 100; // Delay in milliseconds
+
+        ActionListener task = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadPanel();
+            }
+        };
+
+        Timer timer = new Timer(delay, task);
+        timer.setRepeats(false); // Set to true if you want the timer to repeat
+
+        // Start the timer
+        timer.start();
 
     }
 
@@ -266,11 +281,12 @@ public class CashierFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+       loadPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        loadDashboard();
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -318,7 +334,6 @@ public class CashierFrame extends javax.swing.JFrame {
             public void run() {
                 CashierFrame cashierPanel = new CashierFrame();
                 cashierPanel.setExtendedState(cashierPanel.getExtendedState() | cashierPanel.MAXIMIZED_BOTH);
-                 cashierPanel.loadDashboard();
                 cashierPanel.setVisible(true);
 
             }
