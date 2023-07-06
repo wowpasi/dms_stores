@@ -261,7 +261,7 @@ public class CashierFrame extends javax.swing.JFrame {
         jLabel1.setText("Ongoing Billing");
 
         this.jPanel3.removeAll();
-        this.jPanel3.add(new CashierOngoingBill(this.jPanel3));
+        this.jPanel3.add(new OngoingBillInvoice(this.jPanel3));
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }//GEN-LAST:event_jButton3MouseClicked
