@@ -4,7 +4,10 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.MySQL;
 import java.awt.Color;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -18,8 +21,6 @@ public class CashierDashboard extends javax.swing.JPanel {
      */
     private static JPanel jPanel;
     
-    
-
     public CashierDashboard(JPanel jPanel) {
         initComponents();
         this.jPanel = jPanel;
@@ -266,7 +267,25 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
+        String code = jTextField1.getText();
         
+        if (code.length() < 0) {
+            try {
+                ResultSet rs = MySQL.search("SELECT * FROM `prodcut` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` WHERE `product`.`bar_code`='" + code + "'");
+                
+                if (rs.next()) {
+                    jLabel3.setText(rs.getString("")); // sellling
+                    jLabel4.setText("product.name");
+                    jLabel8.setText("brand.name");
+                }else{
+                    JOptionPane.showMessageDialog(this, "This bar code is not registered in system. Alert administrator of the system", "warning", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }//GEN-LAST:event_jTextField1KeyReleased
 
 
