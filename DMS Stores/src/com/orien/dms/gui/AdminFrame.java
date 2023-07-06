@@ -362,7 +362,13 @@ public class AdminFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1KeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+         jLabel1.setText("Ongoing GRN");
+        OngoingBillGRN panel=new OngoingBillGRN(this.jPanel3);
+        jPanel3.removeAll();
+        jPanel3.add(panel);
+        jPanel3.revalidate();
+        jPanel3.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

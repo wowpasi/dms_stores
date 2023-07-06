@@ -4,7 +4,11 @@
  */
 package com.orien.dms.gui;
 
+import com.orien.dms.model.MySQL;
+import java.sql.ResultSet;
+import java.util.Vector;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,22 +17,36 @@ import javax.swing.JPanel;
 public class OngoingBillInvoice extends javax.swing.JPanel {
 
     private static JPanel jPanel;
-    
-    public void loadTable(){
+
+    public void loadTable() {
+
         try {
-            
-            
-            
+
+            ResultSet rs = MySQL.search("SELECT * FROM `invoice` INNER JOIN `user` ON `grn`.`user_nic`=`user`.`nic` ORDER BY `invoice`.`id` ASC ");
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v = new Vector();
+                v.add(rs.getString("invoice.id"));
+                v.add(rs.getString("user.first_name"));
+                v.add(rs.getString("invoice.date"));
+                v.add(rs.getString("invoice.time"));
+                v.add(rs.getString("invoice.total"));
+                dtm.addRow(v);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public OngoingBillInvoice(JPanel jPanel) {
         initComponents();
-        this.jPanel=jPanel;
+        this.jPanel = jPanel;
         setSize(jPanel.getSize());
         setVisible(true);
+        loadTable();
     }
 
     /**

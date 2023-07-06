@@ -15,16 +15,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Asus
  */
 public class OngoingBillGRN extends javax.swing.JPanel {
-
+    
     private static JPanel jPanel;
-
+    
     public void loadTable() {
         try {
-
+            
             ResultSet rs = MySQL.search("SELECT * FROM `grn` INNER JOIN `user` ON `grn`.`user_nic`=`user`.`nic` INNER JOIN `supplier` ON `grn`.`supplier_id`=`supplier`.`id` ORDER BY `grn`.`id` ASC ");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-
+            
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getString("grn.id"));
@@ -33,18 +33,20 @@ public class OngoingBillGRN extends javax.swing.JPanel {
                 v.add(rs.getString("grn.date"));
                 v.add(rs.getString("grn.time"));
                 v.add(rs.getString("grn.total"));
+                dtm.addRow(v);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public OngoingBillGRN(JPanel jPanel) {
         initComponents();
         this.jPanel = jPanel;
         setSize(jPanel.getSize());
         setVisible(true);
+        loadTable();
     }
 
     /**
