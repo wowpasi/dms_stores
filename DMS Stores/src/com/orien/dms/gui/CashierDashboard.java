@@ -267,6 +267,7 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
+<<<<<<< Updated upstream
         String code = jTextField1.getText();
         
         if (code.length() < 0) {
@@ -286,6 +287,9 @@ public class CashierDashboard extends javax.swing.JPanel {
             }
         }
 
+=======
+        
+>>>>>>> Stashed changes
     }//GEN-LAST:event_jTextField1KeyReleased
 
 
