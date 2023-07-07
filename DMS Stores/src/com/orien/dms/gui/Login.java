@@ -171,12 +171,12 @@ public class Login extends javax.swing.JFrame {
 
             try {
 
-                ResultSet rs = MySQL.search("SELECT * FROM user INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` WHERE user.user_name='" + username + "' AND user.password='" + password + "' AND `user_type`.`name`='"+userType+"'");
+                ResultSet rs = MySQL.search("SELECT * FROM user INNER JOIN `user_type` ON `user`.`user_type_id`=`user_type`.`id` WHERE user.user_name='" + username + "' AND user.password='" + password + "' AND `user_type`.`name`='" + userType + "'");
                 if (rs.next()) {
                     String id = rs.getString("user_status_id");
-                    String nic=rs.getString("nic");
-                    String user_type=rs.getString("user_type.name");
-                    
+                    String nic = rs.getString("nic");
+                    String user_type = rs.getString("user_type.name");
+
                     if (user_type.equalsIgnoreCase("superadmin")) {
 
                         SuperAdminFrame frame = new SuperAdminFrame(nic);
@@ -265,7 +265,12 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    Thread.sleep(6000);
+                    new Login().setVisible(true);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         });
     }

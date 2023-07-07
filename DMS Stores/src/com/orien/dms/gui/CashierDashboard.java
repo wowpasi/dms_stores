@@ -7,6 +7,7 @@ package com.orien.dms.gui;
 import com.orien.dms.model.MySQL;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -20,13 +21,46 @@ public class CashierDashboard extends javax.swing.JPanel {
      * Creates new form CashierDashboard
      */
     private static JPanel jPanel;
-    
+
     public CashierDashboard(JPanel jPanel) {
         initComponents();
         this.jPanel = jPanel;
         setSize(jPanel.getSize());
         revalidate();
         repaint();
+    }
+
+    public void clearData() {
+        jTextField2.setText("");
+        jLabel3.setText("None");
+        jLabel4.setText("0.00");
+        jLabel8.setText("None");
+        jLabel10.setText("0000-00-00");
+        jLabel11.setText("0000-00-00");
+        jLabel19.setText("0.00");
+    }
+
+    public void setData() {
+        String code = jTextField1.getText();
+
+        if (code.length() > 0) {
+            try {
+                ResultSet rs = MySQL.search("SELECT *FROM `stock`INNER JOIN `product` ON `stock`.`product_id`=`product`.`id`INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id`INNER JOIN `category` ON `product`.`category_id`=`category`.`id`WHERE `product`.`bar_code`='" + code + "'  ORDER BY `stock`.`exd` ASC");
+
+                if (rs.next()) {
+                    jLabel3.setText(rs.getString("product.name"));
+                    jLabel4.setText(rs.getString("stock.selling_price"));
+                    jLabel8.setText(rs.getString("brand.name"));
+                    jLabel10.setText(rs.getString("stock.mfd"));
+                    jLabel11.setText(rs.getString("stock.exd"));
+                } else {
+                    clearData();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -76,21 +110,34 @@ public class CashierDashboard extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Per Price :");
+        jLabel2.setText("Product :");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setText("None");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel4.setText("None");
+        jLabel4.setText("0.00");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setText("Product :");
+        jLabel5.setText("Per Price :");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setText("Quantity :");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setText("Brand :");
@@ -102,16 +149,21 @@ public class CashierDashboard extends javax.swing.JPanel {
         jLabel9.setText("MF Date:");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel10.setText("None");
+        jLabel10.setText("0000-00-00");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel11.setText("None");
+        jLabel11.setText("0000-00-00");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel12.setText("EX Date :");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jButton1.setText("Add to Invoice");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setText("Total Price :");
@@ -267,27 +319,89 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
+
+        setData();
+
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         String code = jTextField1.getText();
-        
-        if (code.length() < 0) {
-            try {
-                ResultSet rs = MySQL.search("SELECT * FROM `prodcut` INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id` INNER JOIN `category` ON `product`.`category_id`=`category`.`id` WHERE `product`.`bar_code`='" + code + "'");
-                
-                if (rs.next()) {
-                    jLabel3.setText(rs.getString("")); // sellling
-                    jLabel4.setText("product.name");
-                    jLabel8.setText("brand.name");
-                }else{
-                    JOptionPane.showMessageDialog(this, "This bar code is not registered in system. Alert administrator of the system", "warning", JOptionPane.INFORMATION_MESSAGE);
+        String product = jLabel3.getText();
+        String brand = jTextField2.getText();
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+
+        String qty = jTextField2.getText();
+        String text = qty + evt.getKeyChar();
+        Double price = Double.valueOf(jLabel4.getText());
+        Double total = 0.00;
+        String brand = jLabel8.getText();
+        if (qty.isEmpty()) {
+            jLabel19.setText("0.00");
+        } else if (qty.equals("0")) {
+            JOptionPane.showMessageDialog(this, "Invalied quantity .", "Warning", JOptionPane.INFORMATION_MESSAGE);
+            jTextField2.setText("");
+        } else {
+            int quantity = Integer.parseInt(qty);
+
+            if (evt.getKeyCode() == 8) {
+                    total = quantity * price;
+                    System.out.println(total);
+                    jLabel19.setText(String.valueOf(total));
+            }
+
+            if (!Pattern.compile("[1-9][0-9]*").matcher(text).matches()) {
+                evt.consume();
+            } else {
+                String code = jTextField1.getText();
+                try {
+                    ResultSet rs = MySQL.search("SELECT *FROM `stock`INNER JOIN `product` ON `stock`.`product_id`=`product`.`id`INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id`INNER JOIN `category` ON `product`.`category_id`=`category`.`id`WHERE `product`.`bar_code`='" + code + "'");
+                    if (rs.next()) {
+                       
+                        if (brand.equalsIgnoreCase("NO BRAND")) {
+                            jLabel6.setText("Weight (g):");
+                        } else {
+                            int stQty = rs.getInt("stock.qty");
+
+                            if (!qty.isEmpty()) {
+                                total = quantity * price;
+                                if (stQty < quantity) {
+                                    JOptionPane.showMessageDialog(this, "The stock have maximum " + stQty + " products.", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                                    jTextField2.setText("1");
+                                    total = 1 * price;
+                                }
+
+                                jLabel19.setText(String.valueOf(total));
+
+                            } else {
+
+                            }
+                        }
+
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
-                
-            } catch (Exception e) {
-                e.printStackTrace();
+
             }
         }
 
-        
-    }//GEN-LAST:event_jTextField1KeyReleased
+
+    }//GEN-LAST:event_jTextField2KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

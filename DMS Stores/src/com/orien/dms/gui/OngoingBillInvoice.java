@@ -22,16 +22,15 @@ public class OngoingBillInvoice extends javax.swing.JPanel {
 
         try {
 
-            ResultSet rs = MySQL.search("SELECT * FROM `invoice` INNER JOIN `user` ON `grn`.`user_nic`=`user`.`nic` ORDER BY `invoice`.`id` ASC ");
+            ResultSet rs = MySQL.search("SELECT * FROM `invoice_item` INNER JOIN `invoice` ON `invoice_item`.`invoice_id`=`invoice`.`id` WHERE `invoice`.`bill_status_id`='1' ORDER BY `invoice`.`time` ASC ");
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
 
             while (rs.next()) {
                 Vector v = new Vector();
                 v.add(rs.getString("invoice.id"));
-                v.add(rs.getString("user.first_name"));
-                v.add(rs.getString("invoice.date"));
                 v.add(rs.getString("invoice.time"));
+                v.add(rs.getString("invoice_item.qty"));
                 v.add(rs.getString("invoice.total"));
                 dtm.addRow(v);
             }
@@ -86,8 +85,8 @@ public class OngoingBillInvoice extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

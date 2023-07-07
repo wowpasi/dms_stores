@@ -24,7 +24,7 @@ public class BillingCashierFrame extends javax.swing.JFrame {
         jLabel1.setText("Dashboard");
 
         this.jPanel3.removeAll();
-        this.jPanel3.add(new BillingCashierDashboard(this.jPanel3));
+        this.jPanel3.add(new CashierDashboard(this.jPanel3));
         this.jPanel3.revalidate();
         this.jPanel3.repaint();
     }
