@@ -316,7 +316,9 @@ public class SuperAdminFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         jLabel1.setText("Admin Management");
         this.jPanel3.removeAll();
-        this.jPanel3.add(new SuperAdminDashboardPanel(this.jPanel3));
+        this.jPanel3.add(new SuperAdminManagementPlanel(this.jPanel3));
+        this.jPanel3.revalidate();
+        this.jPanel3.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
