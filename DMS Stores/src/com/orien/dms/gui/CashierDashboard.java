@@ -7,6 +7,7 @@ package com.orien.dms.gui;
 import com.orien.dms.model.MySQL;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,9 +18,7 @@ import javax.swing.JPanel;
  */
 public class CashierDashboard extends javax.swing.JPanel {
 
-    /**
-     * Creates new form CashierDashboard
-     */
+    DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private static JPanel jPanel;
 
     public CashierDashboard(JPanel jPanel) {
@@ -38,6 +37,7 @@ public class CashierDashboard extends javax.swing.JPanel {
         jLabel10.setText("0000-00-00");
         jLabel11.setText("0000-00-00");
         jLabel19.setText("0.00");
+        jLabel6.setText("Quantity :");
     }
 
     public void setData() {
@@ -49,10 +49,17 @@ public class CashierDashboard extends javax.swing.JPanel {
 
                 if (rs.next()) {
                     jLabel3.setText(rs.getString("product.name"));
-                    jLabel4.setText(rs.getString("stock.selling_price"));
+                    jLabel4.setText(decimalFormat.format(Double.parseDouble(rs.getString("stock.selling_price"))));
                     jLabel8.setText(rs.getString("brand.name"));
                     jLabel10.setText(rs.getString("stock.mfd"));
                     jLabel11.setText(rs.getString("stock.exd"));
+
+                    if (rs.getString("brand.name").equalsIgnoreCase("no brand")) {
+                        jLabel6.setText("Weight (g):");
+                    } else {
+                        jLabel6.setText("Quantity :");
+                    }
+
                 } else {
                     clearData();
                 }
@@ -103,9 +110,19 @@ public class CashierDashboard extends javax.swing.JPanel {
         jLabel1.setText("Barcode :");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField1InputMethodTextChanged(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
             }
         });
 
@@ -319,9 +336,11 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
-
-        setData();
-
+        if (jTextField1.getText().length() == 0) {
+            clearData();
+        } else {
+            setData();
+        }
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -338,7 +357,12 @@ public class CashierDashboard extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        String qty = jTextField2.getText();
+        String text = qty + evt.getKeyChar();
 
+        if (!Pattern.compile("[1-9][0-9]*").matcher(text).matches()) {
+            evt.consume();
+        }
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
@@ -348,60 +372,92 @@ public class CashierDashboard extends javax.swing.JPanel {
         Double price = Double.valueOf(jLabel4.getText());
         Double total = 0.00;
         String brand = jLabel8.getText();
+        String label = jLabel6.getText();
+
         if (qty.isEmpty()) {
             jLabel19.setText("0.00");
-        } else if (qty.equals("0")) {
-            JOptionPane.showMessageDialog(this, "Invalied quantity .", "Warning", JOptionPane.INFORMATION_MESSAGE);
-            jTextField2.setText("");
+            JOptionPane.showMessageDialog(this, "This value cannot be zero", "warning", JOptionPane.WARNING_MESSAGE);
+//            if (label.equalsIgnoreCase("weight (g):")) {
+//                jTextField2.setText("100");
+//            } else {
+//                jTextField2.setText("1");
+//            }
         } else {
-            int quantity = Integer.parseInt(qty);
 
-            if (evt.getKeyCode() == 8) {
-                    total = quantity * price;
-                    System.out.println(total);
-                    jLabel19.setText(String.valueOf(total));
-            }
-
-            if (!Pattern.compile("[1-9][0-9]*").matcher(text).matches()) {
-                evt.consume();
-            } else {
+            try {
                 String code = jTextField1.getText();
-                try {
-                    ResultSet rs = MySQL.search("SELECT *FROM `stock`INNER JOIN `product` ON `stock`.`product_id`=`product`.`id`INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id`INNER JOIN `category` ON `product`.`category_id`=`category`.`id`WHERE `product`.`bar_code`='" + code + "'");
+                ResultSet rs = MySQL.search("SELECT *FROM `stock`INNER JOIN `product` ON `stock`.`product_id`=`product`.`id`INNER JOIN `brand` ON `product`.`brand_id`=`brand`.`id`INNER JOIN `category` ON `product`.`category_id`=`category`.`id`WHERE `product`.`bar_code`='" + code + "'");
+
+                int quantity = Integer.parseInt(qty);
+
+                if (label.equalsIgnoreCase("weight (g):")) {
+                    System.out.println("Done");
                     if (rs.next()) {
-                       
-                        if (brand.equalsIgnoreCase("NO BRAND")) {
-                            jLabel6.setText("Weight (g):");
+                        if (evt.getKeyCode() == 8) {
+                            if (qty.length() > 0) {
+                                total = (quantity * price) / 1000;
+                                jLabel19.setText(decimalFormat.format(total));
+                            } else {
+                                clearData();
+                            }
                         } else {
                             int stQty = rs.getInt("stock.qty");
-
-                            if (!qty.isEmpty()) {
-                                total = quantity * price;
-                                if (stQty < quantity) {
-                                    JOptionPane.showMessageDialog(this, "The stock have maximum " + stQty + " products.", "Warning", JOptionPane.INFORMATION_MESSAGE);
-                                    jTextField2.setText("1");
-                                    total = 1 * price;
-                                }
-
-                                jLabel19.setText(String.valueOf(total));
-
-                            } else {
-
+                            total = (quantity * price) / 1000;
+                            if (stQty < quantity) {
+                                JOptionPane.showMessageDialog(this, "The stock have maximum " + stQty + " products.", "Warning", JOptionPane.WARNING_MESSAGE);
+                                jTextField2.setText("100");
+                                total = (1 * price) / 10;
                             }
+                            jLabel19.setText(decimalFormat.format(total));
+                        }
+                    }
+
+                } else {
+
+                    if (rs.next()) {
+                        if (evt.getKeyCode() == 8) {
+                            if (qty.length() > 0) {
+                                total = quantity * price;
+                                jLabel19.setText(decimalFormat.format(total));
+                            } else {
+                                clearData();
+                            }
+                        } else {
+
+                            int stQty = rs.getInt("stock.qty");
+                            total = quantity * price;
+                            if (stQty < quantity) {
+                                JOptionPane.showMessageDialog(this, "The stock have maximum " + stQty + " products.", "Warning", JOptionPane.WARNING_MESSAGE);
+                                jTextField2.setText("1");
+                                total = 1 * price;
+                            }
+                            jLabel19.setText(decimalFormat.format(total));
                         }
 
                     } else {
+                        JOptionPane.showMessageDialog(this, "Error", "warning", JOptionPane.WARNING_MESSAGE);
                     }
 
-                } catch (Exception e) {
-                    System.out.println(e);
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
 
 
     }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jTextField1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField1InputMethodTextChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTextField1InputMethodTextChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

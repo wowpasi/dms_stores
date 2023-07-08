@@ -39,7 +39,6 @@ public class CashierFrame extends javax.swing.JFrame {
                 jLabel3.setText(DateTime.getDate());
             }
         }).start();
-        
 
         int delay = 100; // Delay in milliseconds
 
@@ -283,7 +282,7 @@ public class CashierFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       loadPanel();
+        loadPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
