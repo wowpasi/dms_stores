@@ -309,7 +309,7 @@ public class Login extends javax.swing.JFrame {
                     Thread.sleep(3000);
                     new Login().setVisible(true);
                 } catch (Exception e) {
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
             }
         });
