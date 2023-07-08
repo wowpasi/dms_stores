@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.orien.dms.gui;
+package com.orien.dms.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.orien.dms.gui.AdminFrame;
+import com.orien.dms.gui.BillingCashierFrame;
+import com.orien.dms.gui.CashierFrame;
+import com.orien.dms.gui.SuperAdminFrame;
 import com.orien.dms.model.MySQL;
 import java.sql.ResultSet;
 import java.util.Vector;
