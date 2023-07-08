@@ -179,6 +179,7 @@ public class CashierFrame extends javax.swing.JFrame {
         jLabel2.setText("Time");
 
         jButton8.setFont(new java.awt.Font("STLiti", 1, 20)); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/orien/dms/img/log_out.png"))); // NOI18N
         jButton8.setText("Log Out");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
