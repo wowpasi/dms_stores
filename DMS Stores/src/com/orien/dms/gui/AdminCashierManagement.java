@@ -282,15 +282,18 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
         jTextField9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 0));
         jButton1.setText("Register Cashier");
+        jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setForeground(java.awt.Color.red);
         jButton2.setText("Clear All");
@@ -462,7 +465,7 @@ public class AdminCashierManagement extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel12.setText("Search :");
 
         jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

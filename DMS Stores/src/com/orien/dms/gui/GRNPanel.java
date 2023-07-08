@@ -473,8 +473,9 @@ public class GRNPanel extends javax.swing.JPanel {
         jLabel16.setForeground(new java.awt.Color(0, 153, 0));
         jLabel16.setText("0.00");
 
-        jButton4.setBackground(new java.awt.Color(51, 255, 51));
+        jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 102, 51));
         jButton4.setText("GRN Invoice");
         jButton4.setOpaque(true);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
