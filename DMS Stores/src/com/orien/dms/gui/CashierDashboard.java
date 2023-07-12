@@ -1,14 +1,19 @@
 package com.orien.dms.gui;
 
 import com.formdev.flatlaf.ui.FlatListCellBorder;
+import com.orien.dms.main.Login;
 import com.orien.dms.model.MySQL;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,10 +29,19 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     public CashierDashboard(JPanel jPanel) {
         initComponents();
+//         jTextField1.requestFocus();
         this.jPanel = jPanel;
         setSize(jPanel.getSize());
         revalidate();
         repaint();
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                jTextField1.requestFocus();
+            }
+        });
+
     }
 
     public void clearData() {
@@ -209,6 +223,7 @@ public class CashierDashboard extends javax.swing.JPanel {
         jLabel1.setText("Barcode :");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
@@ -315,7 +330,7 @@ public class CashierDashboard extends javax.swing.JPanel {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,6 +399,11 @@ public class CashierDashboard extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -403,6 +423,11 @@ public class CashierDashboard extends javax.swing.JPanel {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         jButton2.setText("Print Invoice");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -417,7 +442,7 @@ public class CashierDashboard extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(61, 61, 61)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)))
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -462,17 +487,46 @@ public class CashierDashboard extends javax.swing.JPanel {
 
 // should check same product with selling & mfd & exd and update same from the table
 // table need sellingprice mxd exd
-
         String code = jTextField1.getText();
         String qty = jTextField2.getText();
         String product = jLabel3.getText();
         String brand = jTextField2.getText();
         String total = jLabel19.getText();
 
+        int trc = jTable1.getRowCount();
+
+        String stid = String.valueOf(stock_Id);
+
+        String dupInv = null;
+
+        int i;
+        int j = 0;
+
+        for (i = 0; i < trc; i++) {
+
+            String tbcvalue = jTable1.getModel().getValueAt(i, 0).toString();
+
+            if (tbcvalue.equalsIgnoreCase(stid)) {
+                dupInv = "dublicate product in invoice";
+//                System.out.println(dupInv + "," + i);
+                j = i;
+            }
+        }
+
         if (code.isEmpty() || stock_Id == 0) {
             JOptionPane.showMessageDialog(this, "Please set barcode", "warning", JOptionPane.WARNING_MESSAGE);
         } else if (qty.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter quantity or weight", "warning", JOptionPane.WARNING_MESSAGE);
+        } else if (dupInv == "dublicate product in invoice") {
+            String tbqty = jTable1.getModel().getValueAt(j, 4).toString();
+            String tbtot = jTable1.getModel().getValueAt(j, 5).toString();
+            jTable1.getModel().setValueAt(Integer.parseInt(tbqty) + Integer.parseInt(qty), j, 4);
+            jTable1.getModel().setValueAt(Double.parseDouble(tbtot) + Double.parseDouble(total), j, 5);
+            dupInv = null;
+            j = 0;
+            clearData();
+            loadTotal();
+            jTextField1.requestFocus();
         } else {
             DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
 
@@ -487,7 +541,9 @@ public class CashierDashboard extends javax.swing.JPanel {
 
             clearData();
             loadTotal();
-            JOptionPane.showMessageDialog(this, "Added to Invoice", "success", JOptionPane.INFORMATION_MESSAGE);
+            jTextField1.requestFocus();
+
+//            JOptionPane.showMessageDialog(this, "Added to Invoice", "success", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
@@ -522,6 +578,100 @@ public class CashierDashboard extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jTextField1InputMethodTextChanged
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+        String btotal = jLabel13.getText();
+
+        try {
+
+            if (jTable1.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Pleasse Add Product", "warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                long mTime = System.currentTimeMillis();
+
+                String uniqueId = mTime + "-" + Login.userNic;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dNow = sdf.format(new Date());
+
+                SimpleDateFormat stf = new SimpleDateFormat("hh:mm:ss");
+                String tNow = stf.format(new Date());
+
+                MySQL.iud("INSERT INTO `invoice` (`date`,`time`,`total`,`bill_status_id`,`user_nic`,`unique_id`) VALUES ('" + dNow + "','" + tNow + "','" + btotal + "','1','" + Login.userNic + "','" + uniqueId + "')");
+
+                ResultSet rs1 = MySQL.search("SELECT * FROM `invoice` WHERE `unique_id`='" + uniqueId + "'");
+                rs1.next();
+                String id = rs1.getString("id");
+
+//            MySQL.iud("INSERT INTO `invoice_payment` (`invoice_id`,`payment`,`balance`) VALUES ('" + id + "','" + payment + "','" + balance + "')");
+                ResultSet rs3 = MySQL.search("SELECT * FROM `user` WHERE `nic`='" + Login.userNic + "'");
+                rs3.next();
+//                String uName = rs3.getString("first_name" + " " + "last_name");
+
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+
+                    String sid = jTable1.getValueAt(i, 0).toString();
+//                    String bNo = jTable1.getValueAt(i, 1).toString();
+//                    String product = jTable1.getValueAt(i, 2).toString();
+//                    String Brand = jTable1.getValueAt(i, 3).toString();
+                    String qty = jTable1.getValueAt(i, 4).toString();
+                    String total = jTable1.getValueAt(i, 5).toString();
+
+                    ResultSet rs4 = MySQL.search("SELECT * FROM `stock` WHERE `stock`.`id`='" + sid + "'");
+                    rs4.next();
+
+                    String availableQty = rs4.getString("qty");
+
+                    int upadatedQty = (Integer.parseInt(availableQty) - Integer.parseInt(qty));
+
+                    MySQL.iud("UPDATE `stock` SET `qty`='" + upadatedQty + "' WHERE `id`='" + sid + "'");
+
+                    MySQL.iud("INSERT INTO `invoice_item` (`qty` ,`total`, `invoice_id`,`stock_id`) VALUES ('" + qty + "','" + total + "','" + id + "','" + sid + "')");
+
+                }
+
+                DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+                dtm.setRowCount(0);
+                jLabel13.setText("0.00");
+
+                JOptionPane.showMessageDialog(this, "New Invoice Created", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+
+        int i = jTable1.getSelectedRow();
+
+        if (evt.getClickCount() == 2) {
+
+            if (i == -1) {
+                JOptionPane.showMessageDialog(this, "Pleasse select a Invoice Item", "warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                int option = JOptionPane.showConfirmDialog(this, "Do you want to Delete?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                if (option == JOptionPane.YES_OPTION) {
+
+                    DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+                    dtm.removeRow(i);
+
+                    jTextField1.requestFocus();
+
+                    JOptionPane.showMessageDialog(this, "Invoice Item Removed", "Succsess", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -546,7 +696,7 @@ public class CashierDashboard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
