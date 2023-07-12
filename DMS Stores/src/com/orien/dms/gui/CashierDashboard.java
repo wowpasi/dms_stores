@@ -2,8 +2,10 @@ package com.orien.dms.gui;
 
 import com.formdev.flatlaf.ui.FlatListCellBorder;
 import com.orien.dms.main.Login;
+import com.orien.dms.model.InvoiceJasp;
 import com.orien.dms.model.MySQL;
 import java.awt.Color;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -15,6 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -490,7 +499,7 @@ public class CashierDashboard extends javax.swing.JPanel {
         String code = jTextField1.getText();
         String qty = jTextField2.getText();
         String product = jLabel3.getText();
-        String brand = jTextField2.getText();
+        String value = jLabel4.getText();
         String total = jLabel19.getText();
 
         int trc = jTable1.getRowCount();
@@ -534,7 +543,7 @@ public class CashierDashboard extends javax.swing.JPanel {
             v.add(stock_Id);
             v.add(code);
             v.add(product);
-            v.add(brand);
+            v.add(value);
             v.add(qty);
             v.add(total);
             dtm.addRow(v);
@@ -583,7 +592,19 @@ public class CashierDashboard extends javax.swing.JPanel {
 
         String btotal = jLabel13.getText();
 
+        Vector v = null;
+        HashMap parameter = null;
+        JasperPrint jp = null;
+        JRBeanCollectionDataSource datasource = null;
+        InputStream pathStream = null;
+        JasperReport jr = null;
+
         try {
+
+//            pathStream = StudentPayment.class.getResourceAsStream("/report/Invoice.jasper");
+            jr = JasperCompileManager.compileReport("src/com/orien/dms/reports/Invoice_20.jrxml");
+
+            v = new Vector();
 
             if (jTable1.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(this, "Pleasse Add Product", "warning", JOptionPane.WARNING_MESSAGE);
@@ -592,6 +613,7 @@ public class CashierDashboard extends javax.swing.JPanel {
                 long mTime = System.currentTimeMillis();
 
                 String uniqueId = mTime + "-" + Login.userNic;
+                String uniqueId2 = mTime + Login.userId;
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dNow = sdf.format(new Date());
@@ -599,7 +621,7 @@ public class CashierDashboard extends javax.swing.JPanel {
                 SimpleDateFormat stf = new SimpleDateFormat("hh:mm:ss");
                 String tNow = stf.format(new Date());
 
-                MySQL.iud("INSERT INTO `invoice` (`date`,`time`,`total`,`bill_status_id`,`user_nic`,`unique_id`) VALUES ('" + dNow + "','" + tNow + "','" + btotal + "','1','" + Login.userNic + "','" + uniqueId + "')");
+                MySQL.iud("INSERT INTO `invoice` (`id`,`date`,`time`,`total`,`bill_status_id`,`user_nic`,`unique_id`) VALUES ('" + uniqueId2 + "','" + dNow + "','" + tNow + "','" + btotal + "','1','" + Login.userNic + "','" + uniqueId + "')");
 
                 ResultSet rs1 = MySQL.search("SELECT * FROM `invoice` WHERE `unique_id`='" + uniqueId + "'");
                 rs1.next();
@@ -614,8 +636,8 @@ public class CashierDashboard extends javax.swing.JPanel {
 
                     String sid = jTable1.getValueAt(i, 0).toString();
 //                    String bNo = jTable1.getValueAt(i, 1).toString();
-//                    String product = jTable1.getValueAt(i, 2).toString();
-//                    String Brand = jTable1.getValueAt(i, 3).toString();
+                    String product = jTable1.getValueAt(i, 2).toString();
+                    String value = jTable1.getValueAt(i, 3).toString();
                     String qty = jTable1.getValueAt(i, 4).toString();
                     String total = jTable1.getValueAt(i, 5).toString();
 
@@ -630,14 +652,25 @@ public class CashierDashboard extends javax.swing.JPanel {
 
                     MySQL.iud("INSERT INTO `invoice_item` (`qty` ,`total`, `invoice_id`,`stock_id`) VALUES ('" + qty + "','" + total + "','" + id + "','" + sid + "')");
 
+                    String subTotal = jLabel13.getText();
+
+                    parameter = new HashMap();
+                    v.add(new InvoiceJasp(uniqueId2, Login.userName, product, qty, value, total, subTotal, String.valueOf(i + 1)));
+
                 }
+
+                datasource = new JRBeanCollectionDataSource(v);
+                jp = JasperFillManager.fillReport(jr, parameter, datasource);
+
+                JasperViewer jv = new JasperViewer(jp, false);
+                jv.setVisible(true);
+                JasperPrintManager.printReport(jp, true);
 
                 DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
                 dtm.setRowCount(0);
                 jLabel13.setText("0.00");
 
-                JOptionPane.showMessageDialog(this, "New Invoice Created", "Success", JOptionPane.INFORMATION_MESSAGE);
-
+//                JOptionPane.showMessageDialog(this, "New Invoice Created", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             System.out.println(e);

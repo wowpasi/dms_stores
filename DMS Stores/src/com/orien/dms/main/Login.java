@@ -26,6 +26,7 @@ public class Login extends javax.swing.JFrame {
     
     public static String userNic ;
     public static String userName ;
+    public static String userId ;
 
     public void loadUserType() {
         try {
@@ -219,9 +220,11 @@ public class Login extends javax.swing.JFrame {
                     String id = rs.getString("user_status_id");
                     String nic = rs.getString("nic");
                     String user_type = rs.getString("user_type.name");
+                    String user_id = rs.getString("user.id");
                     
                      userNic = nic;
                      userName = username;
+                     userId = user_id;
 
                     if (user_type.equalsIgnoreCase("superadmin")) {
 
