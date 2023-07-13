@@ -118,7 +118,7 @@
 		<band height="32" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="1" width="80" height="30" uuid="b17cfeef-00b8-453f-aedc-7b0ad6e626ed">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b00fc222-bf3b-47a8-81c2-4387bd2d27dc"/>
 				</reportElement>
@@ -203,7 +203,7 @@
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="113" y="13" width="84" height="19" uuid="107b3edf-b980-4a35-9c82-6b7ef338ec7a"/>
+				<reportElement x="113" y="13" width="89" height="19" uuid="107b3edf-b980-4a35-9c82-6b7ef338ec7a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
