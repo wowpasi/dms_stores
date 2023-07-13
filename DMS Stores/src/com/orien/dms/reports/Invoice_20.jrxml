@@ -28,18 +28,18 @@
 				<text><![CDATA[DMS Stores]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="9" y="47" width="31" height="18" uuid="0e718d28-ac29-42fe-b4af-0bfa618af90a"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="9" y="47" width="41" height="18" uuid="0e718d28-ac29-42fe-b4af-0bfa618af90a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date : ]]></text>
+				<text><![CDATA[Date        : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="9" y="65" width="31" height="18" uuid="cc7d5d30-b2a6-4c49-812a-70792f20a500"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="9" y="65" width="41" height="18" uuid="cc7d5d30-b2a6-4c49-812a-70792f20a500"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Time : ]]></text>
+				<text><![CDATA[Time       : ]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="50" y="47" width="90" height="18" uuid="3516307d-aa7b-4d93-b49c-2869320b2f15"/>
@@ -67,14 +67,14 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Inv. No. : ]]></text>
+				<text><![CDATA[Inv. No.  : ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="9" y="101" width="41" height="18" uuid="31c7ce91-cdae-413a-b5ec-0d2e429d0b63"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[C/S :]]></text>
+				<text><![CDATA[C/S         :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="50" y="101" width="141" height="18" uuid="6b14064c-e246-4a06-a972-ad1ce779a716"/>
@@ -84,16 +84,16 @@
 				<textFieldExpression><![CDATA[$F{usName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="134" width="86" height="18" uuid="6a800b5d-f02e-43e8-881f-75ff214d4315"/>
+				<reportElement x="0" y="134" width="80" height="18" uuid="6a800b5d-f02e-43e8-881f-75ff214d4315"/>
 				<text><![CDATA[Pr. Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="86" y="134" width="40" height="18" uuid="4bc1075c-242c-4975-9238-558680bfbd63"/>
+				<reportElement x="80" y="134" width="40" height="18" uuid="4bc1075c-242c-4975-9238-558680bfbd63"/>
 				<textElement textAlignment="Left"/>
 				<text><![CDATA[Price]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="126" y="134" width="30" height="18" uuid="d5ee2eaa-3159-4359-884a-1142f2a51f21"/>
+				<reportElement x="120" y="134" width="36" height="18" uuid="d5ee2eaa-3159-4359-884a-1142f2a51f21"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Qty / g]]></text>
 			</staticText>
@@ -119,25 +119,25 @@
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="1" width="86" height="30" uuid="b17cfeef-00b8-453f-aedc-7b0ad6e626ed">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="1" width="80" height="30" uuid="b17cfeef-00b8-453f-aedc-7b0ad6e626ed">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b00fc222-bf3b-47a8-81c2-4387bd2d27dc"/>
 				</reportElement>
 				<box padding="3"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="11"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{prName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="126" y="1" width="30" height="30" uuid="fb25109e-3e9a-45a0-88d9-859f7b58e6c5"/>
+				<reportElement x="120" y="1" width="36" height="30" uuid="fb25109e-3e9a-45a0-88d9-859f7b58e6c5"/>
 				<box padding="3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="86" y="1" width="40" height="30" uuid="90df43fb-0640-48c8-b302-6c3ddc4b5fa1">
+				<reportElement x="80" y="1" width="40" height="30" uuid="90df43fb-0640-48c8-b302-6c3ddc4b5fa1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a4ca2248-e3ab-424f-b3d8-de7ed571d58e"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -149,7 +149,7 @@
 				<reportElement x="156" y="1" width="46" height="30" uuid="94a612d6-c258-4058-8420-e998c9dc6bcd"/>
 				<box padding="3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pvalueTot}]]></textFieldExpression>
 			</textField>
